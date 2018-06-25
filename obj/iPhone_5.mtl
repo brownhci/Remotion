@@ -1,0 +1,105 @@
+#  ==========================================================================
+#  Wavefront Material file
+#  Exported by Red-i Productions' "Riptide Pro"
+#  (a commercial plugin for Cinema 4D PC & Mac, R9.6 or later)
+#  
+#  Red-i Productions
+#  http://skinprops.com
+#  
+#  ==========================================================================
+
+newmtl Default_black
+Kd 0.077670 0.077670 0.077670
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+
+newmtl Screen
+Ka 0.000000 0.000000 0.000000
+Kd 0.077670 0.077670 0.077670
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+map_Ka iPhone5_screen.jpg
+
+newmtl Lens
+Ka 0.011594 0.018858 0.038835
+Ks 3.000000 3.000000 3.000000
+Tf 0.000000 0.148544 0.495146
+illum 2
+Ns 50.781250
+d 0.000000
+Ni 1.490000
+
+newmtl Grill
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+map_Kd speakergrill_c.jpg
+bump speakergrill_b.jpg
+
+newmtl Metal_dull
+Kd 0.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+
+newmtl Antenna
+Kd 0.097087 0.097087 0.097087
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+
+newmtl Black
+Kd 0.000000 0.000000 0.000000
+illum 1
+
+newmtl Text
+Kd 0.077670 0.077670 0.077670
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+map_d iPhone5_text.jpg
+
+newmtl Home
+Kd 0.077670 0.077670 0.077670
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+map_Kd home.jpg
+
+newmtl Chrome
+Kd 0.349020 0.376471 0.407843
+illum 1
+
+newmtl Flash
+Kd 1.000000 0.987635 0.814493
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+
+newmtl Glass
+Tf 1.000000 1.000000 1.000000
+illum 1
+d 0.000000
+Ni 1.330000
+
+newmtl Cam_2
+Kd 0.087379 0.087379 0.087379
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+
+newmtl Cam_1
+Kd 0.233010 0.233010 0.233010
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+
+newmtl Pentalobe
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+illum 2
+Ns 50.781250
+map_Kd aniso.jpg

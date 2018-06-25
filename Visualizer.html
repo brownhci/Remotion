@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script type="text/javascript" src="build/three.js"></script>
+<script type="text/javascript" src="examples/js/renderers/CanvasRenderer.js"></script>
+<script type="text/javascript" src="examples/js/renderers/Projector.js"></script>
+<script src="examples/js/loaders/DDSLoader.js"></script>
+<script src="examples/js/loaders/MTLLoader.js"></script>
+<script src="examples/js/loaders/OBJLoader.js"></script>
+<script src="build/Detector.js"></script>
+<script src="build/THREEx.FullScreen.js"></script>
+<script src="../../js/jquery.js"></script>
+<script src="examples/js/controls/OrbitControls.js"></script>
+<script src="../../js/socket.io.js"></script>
+<script src="../../js/peer.min.js"></script>
+<link rel="stylesheet" href="../../css/jquery-ui.css" />
+<script src="../../js/jquery-ui.min.js"></script>
+<style type="text/css">
+body,html{
+    font-family: HelveticaNeueTF;
+    overflow: hidden;;
+}
+.blueButton {
+    background-color: #21d2ff;
+}
+.greenButton{
+    background-color: #61f4e1;
+}
+.redButton{
+    background-color: #fc8785;
+}
+.button{
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+#sysinfo{
+    position: absolute;
+    bottom: 0;
+    margin: 0 0 10px 10px;
+}
+#phonePeerjsConnectionIndi{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    margin: 0px 0px 10px 0;
+      border-radius: 3px;
+}
+#mainControl{
+    margin:  0 0 15px 0;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 360px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+@font-face {
+    font-family: HelveticaNeueTF;
+    src: url(HelveticaNeueLTPro-Th.woff);
+}
+#phoneModeBack{
+    background-color: #fff;
+    display: none;
+}
+#replayInfo{
+    width: 300px;
+    float: right;
+    margin: -55px -10px 0 0;
+}
+.ui-slider .ui-slider-handle {
+    background: black;
+    width: 5px;
+}
+/*.ui-slider .updated-handle {
+    background: red;
+}*/
+</style>
+<script type="text/javascript">
+window.log = function()
+{
+    if (this.console)
+    {
+        console.log(Array.prototype.slice.call(arguments));
+    }
+};
+
+// Namespace
+var  Defmech  = Defmech || {};
+var fileTimestamp = parseInt(new Date().getTime() / 1000);
+var ry = 0;
+var quaternionDataFromLogs, acceData;
+var info = document.createElement('div');
+var camera;
+var videoTime, movementTime, gmovieTimestamp,SpeedRatio;
+var playbacks = [
+// Neilly online shopping.csv
+    {
+     'videoStartTime' : '2017/07/20 15:24:01',
+      'movementStartTime':'2017/07/20 15:23:52',
+      'currentReplayLogFile' : "logs/neilly_1_shopping.csv",
+      'videoFilename' : 'PilotStudy/trial4/neilly_2017_07_20_15_23_57.mp4'
+    },
+// Neilly flying car
+    {'videoStartTime' : '2017/07/20 15:59:16',
+      'movementStartTime':'2017/07/20 15:59:01',
+      'currentReplayLogFile' : "logs/neilly_3_flying cars.csv",
+      'videoFilename' : 'PilotStudy/trial4/Neilly_game_2017_07_20_15_59_12.mp4'
+    },
+// Meng kun, shopping // more movement than sitting on chair????
+// related to how relax they are? motion is also related to the engagement and relax.
+    {'videoStartTime' : '2017/07/20 20:43:05',
+      'movementStartTime':'2017/07/20 20:42:52',
+      'currentReplayLogFile' : "logs/mengkun_7_20_1_onlienshopping.csv",
+      'videoFilename' : 'PilotStudy/trial4/2017_07_20_20_43_03.mp4'
+    },
+    {'videoStartTime' : '2017/07/20 20:48:50',
+      'movementStartTime':'2017/07/20 20:47:32',
+      'currentReplayLogFile' : "logs/mengkun_7_20_2_games.csv",
+      'videoFilename' : 'PilotStudy/trial4/2017_07_20_20_48_48.mp4'
+    },
+    { //P1-ONLINE SHOPPING 4
+      'videoStartTime' : '2017_08_03_21_49_26',
+      'movementStartTime':'1501811376253',
+      'currentReplayLogFile' : "logs/p1/Jonny_online_shopping.csv",
+      'videoFilename' : 'studyI/P1/2017_08_03_21_49_22.mp4'
+    }
+    ,
+    { //P1-Game 1 5
+      'videoStartTime' : '2017_08_03_21_57_19',
+      'movementStartTime':'1501811376253',
+      'currentReplayLogFile' : "logs/p1/Jonny_gaming-1.csv",
+      'videoFilename' : 'studyI/P1/p1_games_small.mp4',
+      'ending': '1501812239000'
+    }
+    ,
+    { //P1-GAMES 2 6
+      'videoStartTime' : '2017_08_03_21_57_18',
+      'movementStartTime':'1501811854975',
+      'currentReplayLogFile' : "logs/p1/Jonny_gaming-2.csv",
+      'videoFilename' : 'studyI/P1/p1_games_small.mp4'
+      // 13226
+    },
+    { //P1-Camera 7
+      'videoStartTime' : '2017_08_03_22_10_07',
+      'movementStartTime':'1501812529231',
+      'currentReplayLogFile' : "logs/p1/Johnny_camera.csv",
+      'videoFilename' : 'studyI/P1/2017_08_03_22_10_04.mp4',
+      'ending': '1501812688111'
+    },
+    { //P2-ONLINE SHOPPING 8
+      'videoStartTime' : '2017_08_04_16_07_58',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p2/file1501877086_onlineshopping.csv",
+      'videoFilename' : 'studyI/P2/2017_08_04_16_07_55.mp4'
+    }
+    ,
+    { //P2-GAMES-1 9
+      'videoStartTime' : '2017_08_04_16_14_17',
+      'movementStartTime':'1501811854975',
+      'currentReplayLogFile' : "logs/p2/file1501877665437_game1.csv",
+      'videoFilename' : 'studyI/P2/2017_08_04_16_14_14.mp4'
+    },
+    { //P2-GAME-2 10
+      'videoStartTime' : '2017_08_04_16_18_36',
+      'movementStartTime':'1501812529231',
+      'currentReplayLogFile' : "logs/p2/file1501877086_game2.csv?do=123",
+      'videoFilename' : 'studyI/P2/2017_08_04_16_18_33.mp4'
+    },
+    { //P2-CAMERA 11
+      'videoStartTime' : '2017_08_04_16_24_35',
+      'movementStartTime':'1501812529231',
+      'currentReplayLogFile' : "logs/p2/file1501877086-camera.csv?do=123",
+      'videoFilename' : 'studyI/P2/2017_08_04_16_24_32.mp4',
+      'ending': '1501878335690'
+    },
+    { //P3-ONLINE SHOPPING 12
+      'videoStartTime' : '2017_08_14_12_34_55',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p3/file1502727749-onlineshopping.csv",
+      'videoFilename' : 'studyI/P3/2017_08_14_12_34_56.mp4',
+      'ending' : '1502728980544'
+
+    },
+    { //P3-GAME-1 13
+      'videoStartTime' : '2017_08_14_12_44_48',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p3/file1502727749-game1.csv?do=123",
+      'videoFilename' : 'studyI/P3/2017_08_14_12_44_49.mp4',
+      'ending' : '1502729451000'
+    },
+    { //P3-GAME-2 14
+      'videoStartTime' : '2017_08_14_12_55_54',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p3/file1502727749-game2.csv",
+      'videoFilename' : 'studyI/P3/2017_08_14_12_55_54.mp4',
+      'ending' : '1502730250111'
+    },
+    { //P3-Camera 15
+      'videoStartTime' : '2017_08_14_13_06_14',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p3/file1502727749.csv",
+      'videoFilename' : 'studyI/P3/2017_08_14_13_06_14.mp4',
+      'ending':'1502730439000'
+    },
+    { //P4-Online Shopping 16
+      'videoStartTime' : '2017_08_16_15_06_08',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p4/file1502909950_online.csv",
+      'videoFilename' : 'studyI/P4/2017_08_16_15_06_03.mp4',
+      'ending':'1502910640000'
+    },
+    { //P4-Game 1 17
+      'videoStartTime' : '2017_08_16_15_11_21',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p4/file1502909950_g1.csv?do=123",
+      'videoFilename' : 'studyI/P4/2017_08_16_15_11_16.mp4'
+    },
+    { //P4-GAME 2 18
+      'videoStartTime' : '2017_08_16_15_19_30',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p4/file1502909950_g2.csv?do=2222",
+      'videoFilename' : 'studyI/P4/2017_08_16_15_19_25.mp4'
+    },
+    { //P4-Camera 19
+      'videoStartTime' : '2017_08_16_15_25_15',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p4/file1502909950_camera.csv?do=12121",
+      'videoFilename' : 'studyI/P4/2017_08_16_15_25_11.mp4',
+      'ending':'1502911639111'
+    }
+]
+
+/* testing
+var videoStartTime = '2017/07/19 16:57:55';
+var movementStartTime = '2017/07/19 16:57:39';
+var currentReplayLogFile = "logs/Jing_test_fps.csv";
+var videoFilename = 'PilotStudy/trial4/Jing-test2017_07_19_16_57_51.mp4';
+*/
+
+var fileIndex = getParameterByName('file') ? parseInt(getParameterByName('file')) : 8;
+
+var videoStartTime = playbacks[fileIndex].videoStartTime;
+var movementStartTime = playbacks[fileIndex].movementStartTime;
+var currentReplayLogFile =  playbacks[fileIndex].currentReplayLogFile;
+var videoFilename =  playbacks[fileIndex].videoFilename;
+var videoMonitorEnding = playbacks[fileIndex].ending ? parseInt(parseInt(playbacks[fileIndex].ending) / 1000) : undefined;
+
+var videoBegin;
+var initialQuaterion = {x:0,y:0,z:0,w:1};
+var initialRotationAngles = {x:0,y:0, z:0};
+var initialRotationSet = false;
+var autospeed = 1.16;
+var uservideoBeinPlayer = false;
+var gVideoReplay = false;
+var sysmes;
+// communicate with realtime server for UDP
+var socket;
+var softwareRealtimeRotationInitial = {x:0,y:0,z:0};
+var softwareRealtimeRotationInitialized = false;
+var replayInfo;
+var cube, plane, screen, screenMesh;
+var displayCube,debugLine, zRotationLine;
+var cbx,cby,cbz,cbo,indicatorX,indicatorY,indicatorZ,indicatorO;
+var indicatorOX,indicatorOY,indicatorOZ;
+var objHistory = [];
+var recording = false;
+var globalOffsetReset = false;
+var gHardwareEulerAngle = {};
+
+var rotationReset = false;
+var rotationResetTransformingMatrix;
+var rotationResetCounter = 0;
+var JingsAngleReset = false;
+var JingsAngleInitial = {};
+
+var iniRotationReady = false;
+var iniRotationReadyToReset = false;
+var iniboxTop, iniboxMiddle, iniboxRight;
+var zTop;
+var movementReplayBegin = false;
+var hardwareSyncReady = false;
+var gHardwareEulerAngleNew = {x:0,y:0,z:0};
+var gHardwareEulerAngleLandscape = {x:0,y:0,z:0};
+var glastsendObj = {};
+// default is vertical
+var gOrientation = 1; //
+
+var scene, renderer;
+var gCurrenTime= 0;
+var peer = new Peer('masterServer',{host: '172.18.134.154', port: 8888, path: '/'});
+var conn;
+var playBackSlider;
+
+var remotePhoneVideoPaused = false;
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url:currentReplayLogFile,
+       // url: "PilotStudy/game/movementtest.csv",
+        dataType: "text",
+        success: function(data) {
+            quaternionDataFromLogs = cleanup(data);
+            //acceData = getAccelerationData(data);
+
+            // remapte to 30fps
+            quaternionDataFromLogs = timeRemap(quaternionDataFromLogs);
+            // group accelerometer data;
+            //acceData = groupAcceData(acceData, )
+            // check if video starts first or movement
+        }
+     });
+
+    // binding DIVs
+    videoTime = $('#videoTime');
+    movementTime = $('#movementTime');
+    SpeedRatio = $('#SpeedRatio');
+    sysmes = $('#sysmes')
+    replayInfo = $('#replayInfo');
+
+    // filtering
+
+    videoBegin = new Date(formatDate(videoStartTime));
+    $('#videoSource').attr('src', videoFilename);
+    $('#uservideo')[0].load();
+    playBackSlider = $('#slider');
+
+    document.getElementById('uservideo').addEventListener("timeupdate", function() {
+        if(playBackSlider){
+            gmovieTimestamp = parseInt(videoBegin.getTime() / 1000) +  this.currentTime;
+            playBackSlider.slider( "value", this.currentTime );
+            gCurrenTime = this.currentTime;
+        }
+        if(gmovieTimestamp > parseInt(quaternionDataFromLogs[0].timestamp / 1000))
+            movementReplayBegin = true;
+        videoTime.html(gmovieTimestamp);
+    });
+
+
+
+    $(document).keydown(function(evt) {
+        if (evt.keyCode == 32) {
+          togglePlayAndPause();
+          console.log('space');
+        }
+    });
+
+    $('#slider-master').width($(window).width() / 1.5);
+    $('#slider').width($(window).width() / 1.5);
+});
+
+function cleanup(data){
+    return getQuarternionData(data);
+}
+
+function timeRemap(q,fps){
+    fps = fps || 30;
+    var newObj = [];
+    var currentSec = parseInt(q[0].timestamp / 1000);
+    // fetch everything that is within this time period
+    var i = 0 ;
+    var tmparr = [];
+    // filtering
+    while(q.length > 120){
+        while( (q[i].timestamp / 1000) - currentSec < 1 ){
+            i++;
+        }
+        // check if found something
+        if(i != 0)
+            tmparr = q.splice(0,i);
+        else
+            tmparr = [];
+
+        if(tmparr.length != 0)
+            newObj.push(tmparr);
+        else
+            newObj.push(Array(fps).fill({timestamp:currentSec, x:-999,y:-999,z:-999}))
+        currentSec ++;
+        i = 0;
+    }
+    // mapping
+    newObj = remapHelper(newObj,fps);
+    return newObj;
+}
+
+function remapHelper(newObj,fps){
+    var returnObj = [];
+    for(var i = 0 ; i < newObj.length; i ++){
+        // simple algorithm picks fps / total
+        var ratio = fps / newObj[i].length;
+        // tmp list
+        var tmpList = []
+        // 30fps
+        if(ratio > 1){
+            tmpList = newObj[i];
+            var lendiff = fps -newObj[i].length ;
+            // fill the rest with last element
+            tmpList = tmpList.concat(Array(lendiff).fill(newObj[i][newObj[i].length-1]));
+
+        // if the data has more than 30 fps per sec
+        } else if(ratio < 1){
+            var index = 0;
+            var pRoundedIndex = 0;
+            tmpList.push(newObj[i][0]);
+            for(var j = 0 ; j < newObj[i].length; j ++){
+                // if the accumulative ratio is big enough
+                if((index -pRoundedIndex) > 1){
+                    tmpList.push(newObj[i][j]);
+                    pRoundedIndex = Math.floor(index);
+                }
+                index += ratio;
+            }
+        } else{
+            tmpList = newObj[i];
+        }
+        returnObj.push(tmpList);
+        tmpList = [];
+    }
+
+    var flattend = returnObj.reduce(function(a, b) {
+         return a.concat(b);
+        }, []);
+    return flattend;
+}
+
+function formatDate(d){
+    if(d.search("_") != -1){
+        var tmp = d.split("_");
+        return (tmp[0]+"/"+tmp[1] +"/"+tmp[2]+" " + tmp[3] + ":" + tmp[4]+":" + tmp[5]);
+    } else {
+        return d;
+    }
+}
+
+function getAccelerationData(data){
+    if(!Array.isArray(data))
+        data = data.split("\n");
+    var r = [];
+    for(var i = 0 ; i < data.length; i ++){
+        var tmp = data[i].split(",");
+        if(tmp[1] != undefined && tmp.length > 6)
+            r.push({'x':tmp[5], 'y':tmp[6],'z':tmp[7]})
+    }
+    return r;
+}
+
+function getQuarternionData(data){
+    if(!Array.isArray(data))
+        data = data.split("\n");
+
+    result = [];
+    for(var i = 0 ; i < data.length; i ++){
+        var tmp = data[i].split(",");
+        if(tmp[1] != undefined)
+            if (tmp[1].toLowerCase() == "ori")
+                result.push({'x':tmp[2], 'y':tmp[3], 'z':tmp[4], 'w':tmp[5]})
+            else if(tmp[2].toLowerCase() == "quaternion")
+                result.push({'x':tmp[3], 'y':tmp[4], 'z':tmp[5], 'w':tmp[6],'timestamp':tmp[0]});
+            else if(tmp.length >=4)
+                // i have changed this line of code, may be mistaken
+                result.push({'x':tmp[0], 'y':tmp[1], 'z':tmp[2], 'w':tmp[3],'timestamp':tmp[tmp.length-2]});
+    }
+    return result;
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+
+Defmech.RotationWithQuaternion = (function()
+{
+    'use_strict';
+
+    var container;
+
+    var dataLoaded = false;
+    var replayCounter = 0;
+
+    var frameNumber = 0 ;
+    var mouseDown = false;
+    var rotateStartPoint = new THREE.Vector3(0, 0, 1);
+    var rotateEndPoint = new THREE.Vector3(0, 0, 1);
+
+    var curQuaternion = {x:0,y:0,z:0,w:0}
+    var windowHalfX = window.innerWidth / 2;
+    var windowHalfY = window.innerHeight / 2;
+    var rotationSpeed = 3;
+    var lastMoveTimestamp,
+        moveReleaseTimeDelta = 50;
+
+    var video, image, imageContext,texture;
+    var startPoint = {x: 0,y: 0};
+    var deltaX = 0,deltaY = 0;
+
+
+    function setQuarternionData(d){
+        quaternionDataFromLogs = d;
+
+    }
+
+
+    function setup() {
+        container = document.createElement('div');
+        document.body.appendChild(container);
+        camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight,10, 2000);
+        camera.position.y = 10;
+        camera.position.z = 600;
+        scene = new THREE.Scene();
+
+        video = document.getElementById( 'uservideo' );
+        image = document.createElement( 'canvas' );
+        image.width = 1280;
+        image.height = 720;
+        imageContext = image.getContext( '2d' );
+
+        texture = new THREE.Texture( image );
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.repeat.x = 0.3;
+        // texture.offset.y = 0;
+        texture.offset.x = 0.35;
+
+        var videoMaterial = new THREE.MeshBasicMaterial( { map: texture, overdraw: 1 } );
+        var lambertRedMaterial = new THREE.MeshLambertMaterial({
+            color  : 0xff0000
+
+        });
+
+        // Cube and phone model
+        var boxGeometry = new THREE.BoxGeometry(180, 300, 25);
+        var smallBox = new THREE.BoxGeometry(10,10,10);
+        // phone model material
+        for (var i = 0; i < boxGeometry.faces.length; i += 2)
+        {
+            var color = {
+                h: 36,
+                s: 0,
+                l: (1 / (boxGeometry.faces.length)) * i
+            };
+            boxGeometry.faces[i].color.setHSL(color.h, color.s, color.l);
+            boxGeometry.faces[i + 1].color.setHSL(color.h, color.s, color.l);
+        }
+        // basic cube material
+        var cubeMaterial = new THREE.MeshBasicMaterial(
+        {
+            vertexColors: THREE.FaceColors,
+            overdraw: 0.5
+        });
+        // basic indicator material
+        var smallBoxMtl = new THREE.MeshBasicMaterial( {
+            color: 0xff8800,
+            map: texture,
+            transparent: false
+        } )
+
+        cube = new THREE.Mesh(boxGeometry, cubeMaterial);
+        cbx = new THREE.Mesh(smallBox, smallBoxMtl);
+        cbo = new THREE.Mesh(smallBox, smallBoxMtl);
+        cby = new THREE.Mesh(smallBox, smallBoxMtl);
+        displayCube = new THREE.Mesh(boxGeometry, cubeMaterial);
+        indicatorO = new THREE.Mesh(smallBox, smallBoxMtl);
+        indicatorZ = new THREE.Mesh(smallBox, smallBoxMtl);
+        indicatorOX = new THREE.Mesh(smallBox, smallBoxMtl);
+        indicatorX = new THREE.Mesh(smallBox, smallBoxMtl);
+
+
+        // adjust initial position
+        cube.position.y = 200;
+        cbx.position.y = 150;
+        cbx.position.z = 0;
+        cby.position.x = 90;
+        indicatorO.position.y = 200;
+        indicatorO.position.z = 0;
+        indicatorZ.position.y = 152;
+        displayCube.position.y = 200;
+        displayCube.position.x = -400;
+        // add phone model
+        scene.add(cube);
+        // add orientation indicator
+        cube.add(cbx);
+        cube.add(cbo);
+        cube.add(cby);
+        // add display model
+        //scene.add(displayCube);
+        // add indicator for z rotation
+        scene.add(indicatorO);
+        indicatorO.add(indicatorZ);
+
+        // add background plane
+        var planeGeometry = new THREE.PlaneGeometry(1200, 1000);
+        planeGeometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
+        var planeMaterial = new THREE.MeshBasicMaterial(
+        {
+            color: 0xe0e0e0,
+            //color: 0xFF8800,
+            overdraw: 0.5
+        });
+
+        plane = new THREE.Mesh(planeGeometry, planeMaterial);
+        plane.rotateX(toRad(90));
+        plane.position.z = -150;
+        scene.add(plane);
+
+        // add debug line
+        var linematerial = new THREE.LineBasicMaterial({ color: 0xFF8800 });
+        var zRotationLineMaterial = new THREE.LineBasicMaterial({ color: 0x9242f4 });
+        var geometry = new THREE.Geometry();
+        geometry.vertices.push(indicatorZ.position);
+        geometry.vertices.push(new THREE.Vector3(0,0,0));
+        var zGeometry = new THREE.Geometry();
+        zGeometry.vertices.push(new THREE.Vector3(0,0,0));
+        zGeometry.vertices.push(new THREE.Vector3(0,0,0));
+
+        debugLine = new THREE.Line(geometry, linematerial);
+        zRotationLine = new THREE.Line(zGeometry, zRotationLineMaterial);
+        scene.add(debugLine);
+        scene.add(zRotationLine);
+
+
+        geometry = new THREE.PlaneBufferGeometry( 1, 1 );
+        geometry.attributes.uv.setXY( 0, 0.5, 1.0 );
+        geometry.attributes.uv.setXY( 1, 1.0, 0.5 );
+        geometry.attributes.uv.setXY( 2, 0.0, 0.5 );
+        geometry.attributes.uv.setXY( 3, 0.5, 0.0 );
+
+        var newPlane = new THREE.PlaneGeometry(144, 256);
+        //var testplane = new THREE.Mesh(newPlane, planeMaterial);
+
+        screen = new THREE.BoxGeometry(144,256,1);
+        screenMesh = new THREE.Mesh(screen, videoMaterial);
+        screenMesh.position.z = 15;
+        screenMesh.position.y = 0;
+
+       // add video mesh
+        cube.add(screenMesh);
+        // initial cube rotation
+        //cube.rotateX(toRad(90));
+       // displayCube.rotateX(toRad(-90));
+
+       // var objLoader = new THREE.OBJLoader();
+
+       //      objLoader.load( 'obj/screen2.obj', function ( object ) {
+       //      var mesh = object;
+
+       //      mesh.position.y = -50;
+       //      mesh.traverse( function ( child ) {
+       //          if ( child instanceof THREE.Mesh ) {
+       //              child.material = videoMaterial;
+
+       //          }
+       //      });
+       //      scene.add( mesh );
+       //    } );
+        // employ render
+        renderer = new THREE.WebGLRenderer();
+        renderer.setClearColor(0xf0f0f0);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        // add dom
+        container.appendChild(renderer.domElement);
+        // add basic tracking control with mouse
+        controls = new THREE.OrbitControls( camera, renderer.domElement );
+        controls.addEventListener( 'change', render ); // remove when using animation loop
+        camera.position.set(0,-1100,600);
+        controls.update();
+        // add resize calculator
+        window.addEventListener('resize', onWindowResize, false);
+        // add animator
+        animate();
+    };
+
+    function onWindowResize()
+    {
+        windowHalfX = window.innerWidth / 2;
+        windowHalfY = window.innerHeight / 2;
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+    function rotateMatrix(rotateStart, rotateEnd)
+    {
+        var axis = new THREE.Vector3(),
+            quaternion = new THREE.Quaternion();
+        var angle = Math.acos(rotateStart.dot(rotateEnd) / rotateStart.length() / rotateEnd.length());
+        if (angle)
+        {
+            axis.crossVectors(rotateStart, rotateEnd).normalize();
+            angle *= rotationSpeed;
+            quaternion.setFromAxisAngle(axis, angle);
+        }
+        return quaternion;
+    }
+
+    function clamp(value, min, max)
+    {
+        return Math.min(Math.max(value, min), max);
+    }
+
+    function animate()
+    {
+       requestAnimationFrame(animate);
+       render();
+    }
+
+    function render()
+    {
+        if(gVideoReplay){
+            handlePlaybackRotation();
+            if ( video.readyState === video.HAVE_ENOUGH_DATA ) {
+                imageContext.drawImage( video, 0, 0 );
+                if ( texture ) texture.needsUpdate = true;
+            }
+            if(quaternionDataFromLogs != undefined && !dataLoaded){
+                dataLoaded = true;
+            }
+        }
+        renderer.render(scene, camera);
+    }
+
+    var handlePlaybackRotation = function()
+    {
+        // add curent cube quaternion
+        curQuaternion = cube.quaternion;
+        // play back when video is ready
+        if(dataLoaded){
+            // check if video or movement is first
+            // video first
+            if(movementReplayBegin){
+                replayCounter ++;
+                frameNumber = parseInt(replayCounter /autospeed);
+                var movementTimestamp = quaternionDataFromLogs[frameNumber].timestamp / 1000;
+                movementTime.html(movementTimestamp);
+                var movieTimestamp = videoBegin.getTime() / 1000;
+                if(movementTimestamp > movieTimestamp && !uservideoBeinPlayer){
+                    //video start to play
+                    uservideo.play();
+                    uservideoBeinPlayer = true;
+                }
+                if(videoMonitorEnding != undefined)
+                    if(movementTimestamp > videoMonitorEnding){
+                        uservideo.pause();
+                        movementReplayBegin = false;
+                        // stop remote;
+                        if(conn)
+                            cmdToPhone('videoPause');
+                    }
+
+                // speed adjust
+                 if(uservideoBeinPlayer)
+                    autospeedAdjust(movementTimestamp, gmovieTimestamp);
+
+                replayInfo.html("Remotion Software Playback<br>"+frameNumber + "/" + quaternionDataFromLogs.length);
+                curQuaternion.x = parseFloat(quaternionDataFromLogs[frameNumber].x);
+                curQuaternion.y = parseFloat(quaternionDataFromLogs[frameNumber].y);
+                curQuaternion.z = parseFloat(quaternionDataFromLogs[frameNumber].z);
+                if(fileIndex > 7)
+                    curQuaternion.w = -parseFloat(quaternionDataFromLogs[frameNumber].w);
+                else
+                    curQuaternion.w = parseFloat(quaternionDataFromLogs[frameNumber].w);
+                // sometimes add negative, sometimes not? why?
+                //curQuaternion.w = parseFloat(quaternionDataFromLogs[frameNumber].w);
+                // reset counter
+                if(frameNumber > (quaternionDataFromLogs.length -3)){
+                    //stop after
+                    uservideo.pause();
+                    movementReplayBegin = false;
+                    // stop remote
+                    if(conn)
+                        cmdToPhone('videoPause');
+                }
+
+
+                //fastfind
+                //console.log(frameNumber +":" + curQuaternion.x + "," + curQuaternion.y + "," + curQuaternion.z + "," + curQuaternion.w);
+                // calculate two sets of euler angles
+                var eulerMotorVertical = new THREE.Euler().setFromQuaternion( curQuaternion, 'XZY');
+                gHardwareEulerAngleNew = {x : parseFloat(toDegree(eulerMotorVertical.x)),
+                y: parseFloat(toDegree(eulerMotorVertical.y)),
+                z: parseFloat(toDegree(eulerMotorVertical.z))}
+
+                var eulerMotorLandscape = new THREE.Euler().setFromQuaternion( curQuaternion, 'XYZ');
+                gHardwareEulerAngleLandscape = {x : parseFloat(toDegree(eulerMotorLandscape.x)),
+                y: parseFloat(toDegree(eulerMotorLandscape.y)),
+                z: parseFloat(toDegree(eulerMotorLandscape.z))}
+
+            }
+        }
+        rotateEndPoint = rotateStartPoint;
+    };
+
+    // PUBLIC INTERFACE
+    return {
+        init: function()
+        {
+            setup();
+        }
+    };
+})();
+
+document.onreadystatechange = function()
+{
+    if (document.readyState === 'complete')
+    {
+        Defmech.RotationWithQuaternion.init();
+    }
+};
+
+function autospeedAdjust(a,b){
+    // a is slower than b
+    if(a-b < -0.5)
+        autospeed -= 0.001;
+    else if(a-b > 0.5)
+        autospeed += 0.001;
+    SpeedRatio.html("Auto Speed is: " + autospeed.toFixed(2));
+}
+
+function RotateTexture(){
+    screenMesh.rotateZ(toRad(-90));
+    screenMesh.scale.x = 1.7;
+    screenMesh.scale.y = 0.5625;
+    //144,256,5
+    screenMesh.material.map.offset.y = 0;
+    screenMesh.material.map.repeat.y = 1;
+    screenMesh.material.map.repeat.x = 1;
+    screenMesh.material.map.offset.x = 0;
+}
+
+function reset(){
+   // globalOffsetReset = true;
+   console.log("Reset clicked");
+   // reset display cube orientation to realtime
+   rotationReset = true;
+   // this is used to calculate axis angles
+   iniRotationReadyToReset = true;
+   // reset angle differences
+   JingsAngleReset = false;
+
+}
+function rtmHardware(){
+    // if(gHardwareEulerAngle.x == undefined){
+    //     console.log(" Cannot sync now! harware angle is not defined!!");
+    //     return;
+    // }
+    reset();
+
+    // check socket
+    if(socket == undefined){
+        socket = io('http://localhost:9000');
+        socket.on('connect', function(){
+              sysmes.html("Phone Server Connected!");
+        })
+    }
+    var playHardware = setInterval(function(){
+         /************************************
+            We use two sets of data
+            gHardwareEulerAngleNew (which is euler angle XYZ)
+            this is good for detecting x and y
+
+            gHardwareEulerAngle (which is customized axis angle)
+            this is good for detecting z
+         *************************************/
+        //console.log(gHardwareEulerAngleNew);
+        //console.log(gHardwareEulerAngleLandscape);
+        // landscape rtm:Object {x: 8.63, y: 23.82, z: 86.15}
+        // // hardware new : Object {x: 81.18, y: 82.85, z: 60.55}
+
+        // playback mode
+          //Object {x: -93.15, y: 89.3, z: -59.34}
+         var sendObj = {};
+         sendObj['flag'] ='MOTOR_UPDATE';
+         if(gHardwareEulerAngleLandscape.z < -45 || gHardwareEulerAngleLandscape.z > 45){
+            // landscape
+            gOrientation = 2;
+         } else {
+            gOrientation = 1;
+         }
+
+         var rotation = cube.rotation;
+         // veritical mode
+        if(gOrientation == 1){
+             sendObj['rx'] =  clamp(30 - (gHardwareEulerAngleNew.x * -1),30,210);
+             glastsendObj['rx'] = sendObj['rx'];
+             sendObj['ry'] = clamp((gHardwareEulerAngleNew.y + 45),12,180) // 46 is middle, 12 is left, 180 is right
+             glastsendObj['ry'] = sendObj['ry'];
+
+             // use save and load to detect;
+             // detect orientation;l
+             // hardcode 1, avoid affecting the z axis by limiting the y rotation;
+
+             if(gHardwareEulerAngleNew.y < 85 || gHardwareEulerAngleNew.y > -48){
+                sendObj['rz'] = clamp((parseFloat(gHardwareEulerAngleLandscape.z)+90),0,180); // 97 MIDDLE
+                glastsendObj['rz'] = sendObj['rz'];
+             } else{
+                sendObj['rz'] = glastsendObj['rz'];
+             }
+        } else if (gOrientation == 2){
+            sendObj['rx'] =  clamp(130 - (gHardwareEulerAngleLandscape.y * -1),80,180);
+            glastsendObj['rx'] = sendObj['rx'];
+            sendObj['ry'] = clamp(-(gHardwareEulerAngleLandscape.x) + 110,12,250) // 46 is middle, 12 is left, 180 is right
+            glastsendObj['ry'] = sendObj['ry'];
+            sendObj['rz'] = clamp((parseFloat(gHardwareEulerAngleLandscape.z)+90),0,180); // 97 MIDDLE
+            glastsendObj['rz'] = sendObj['rz'];
+
+        }
+
+         // special case
+         //console.log(gHardwareEulerAngleLandscape);
+
+         socket.send(sendObj);
+    },25);
+}
+
+function clamp(v,a,b){
+    if(v < a)
+        return a;
+    if(v > b)
+        return b;
+    return v;
+}
+/*
+**
+    Connect to the server and receive realtime sensor information
+**
+*/
+function rtmSoftReplay(){
+    sysmes.html("connecting...");
+    socket = io('http://localhost:9000');
+    socket.on('connect', function() {
+        sysmes.html("Phone Server Connected! :)");
+        socket.on('message', function(msg) {
+            data = limitIncomingRotationData(msg);
+            if(data != null){
+                handleRealtimeRotation(data);
+            }
+        });
+        // handle quaternion data input
+        socket.on("quaternionRaw", function(data){
+            var d = data.split(",");
+            var q = new THREE.Quaternion(parseFloat(d[0]),parseFloat(d[1]),parseFloat(d[2]), -parseFloat(d[3]));
+            /* Possible solution to inverse a quaternion to get rotation diff
+            var target = new THREE.Quaternion(0,0,0,1);
+            var t = q.inverse();
+            var rotationQuaternion = t.multiply(target);
+            */
+            // set rotation
+            //-0.17840737,0.13273653,-0.6917425,0.68695265
+
+            cube.setRotationFromQuaternion(q);
+            var eulerMotorVertical = new THREE.Euler().setFromQuaternion( q, 'XZY');
+            gHardwareEulerAngleNew = {x : parseFloat(toDegree(eulerMotorVertical.x)),
+                y: parseFloat(toDegree(eulerMotorVertical.y)),
+                z: parseFloat(toDegree(eulerMotorVertical.z))}
+
+            var eulerMotorLandscape = new THREE.Euler().setFromQuaternion( q, 'XYZ');
+            gHardwareEulerAngleLandscape = {x : parseFloat(toDegree(eulerMotorLandscape.x)),
+                y: parseFloat(toDegree(eulerMotorLandscape.y)),
+                z: parseFloat(toDegree(eulerMotorLandscape.z))}
+
+            //console.log(gHardwareEulerAngleLandscape.z);
+            //console.log(gHardwareEulerAngleLandscape);
+
+            // console.log("x : " + toDegree(cube.rotation.x) + " y : " + toDegree(cube.rotation.y) +
+            //         " z: " +toDegree(cube.rotation.z));
+            /***********************************
+            Method: 1
+            Use inverse Matrix to sync rotation
+            Result: Failed.
+            */
+            cube.updateMatrixWorld();
+            //displayCube.updateMatrixWorld();
+            // convert quaternion to matrix
+
+              /*
+            var mat = new THREE.Matrix4().extractRotation(cube.matrixWorld);
+            var target = new THREE.Matrix4().extractRotation(displayCube.matrixWorld);
+
+            if(rotationReset){
+               var matClone = mat.clone();
+               var matInverse = new THREE.Matrix4();
+               matInverse.getInverse(matClone);
+               rotationResetTransformingMatrix = matInverse.multiply(target);
+               rotationResetCounter ++;
+               if(rotationResetCounter >= 20){
+                   rotationReset = false;
+                   rotationResetCounter = 0;
+               }
+            }
+
+            if(rotationResetTransformingMatrix != undefined){
+               mat.multiply(rotationResetTransformingMatrix);
+               cube.setRotationFromMatrix(mat);
+               //console.log(cube.rotation)
+            }
+            */
+            //var final = mat.multiply(rot);
+            //var final = rotx.multiply(roty).multiply(rotz);
+            //final = mat.multiply(final);
+            // set rotatoin from matrix;
+            //cube.setRotationFromMatrix(final);
+
+
+            // must update world coord in order to use it
+
+            calculateHardwareAngle();
+            // record data
+            if(recording)
+                recordData(d);
+        });
+    });
+}
+
+
+function calculateHardwareAngle(){
+    cbx.updateMatrixWorld();
+    cbo.updateMatrixWorld();
+    cby.updateMatrixWorld();
+    indicatorZ.updateMatrixWorld();
+
+    // we must click reset to reset the difference
+    if(iniRotationReadyToReset){
+        // set three initial positions
+        iniboxMiddle = cbo.getWorldPosition();
+        iniboxTop = cbx.getWorldPosition();
+        iniboxRight = cby.getWorldPosition();
+
+        iniRotationReady = true;
+        iniRotationReadyToReset = false;
+        zTop = new THREE.Vector3(0,200,150);
+
+        // update the debug line
+        debugLine.geometry.vertices.push(iniboxMiddle);
+        debugLine.geometry.vertices.push(zTop);
+        debugLine.geometry.vertices.push(iniboxRight);
+    }
+
+    if(iniRotationReady){
+        /* use law of cosine to get the angles.
+            If we set the top as reference, we will have a
+            good range of freedom in angles
+        */
+        debugLine.geometry.vertices[0] = zTop;
+        var posa = cbx.getWorldPosition();
+        var posb = cby.getWorldPosition();
+        var indicatorZPos = indicatorZ.getWorldPosition();
+        debugLine.geometry.vertices[1] = posa;
+        debugLine.geometry.vertices[3] = zTop;
+        debugLine.geometry.vertices[4] = posb;
+
+        zRotationLine.geometry.vertices[0] = indicatorZPos;
+        zRotationLine.geometry.vertices[1] = posa;
+        indicatorO.rotation.x =  cube.rotation.x;
+        indicatorO.rotation.y =  cube.rotation.y;
+        //console.log(getDistance(indicatorX.getWorldPosition(), posa).toFixed(0));
+        var a = getDistance(zTop,posa);
+        var b = getDistance(iniboxMiddle,posa);
+        var c = getDistance(iniboxMiddle,zTop);
+        var DegreeAngleA = getAngleDegree("A",getDistance(zTop,posa),
+                                              getDistance(iniboxMiddle,posa),
+                                              getDistance(iniboxMiddle,zTop));
+        var DegreeAngleB = getAngleDegree("B",getDistance(iniboxMiddle,posb),
+                                              getDistance(zTop,posb),
+                                              getDistance(iniboxMiddle,zTop));
+        var DegreeAngleZ = getAngleDegree("A",getDistance(indicatorZPos,posa),
+                                              getDistance(posa,iniboxMiddle),
+                                              getDistance(indicatorZPos,iniboxMiddle));
+        //  determine quatrants
+        if(posa.x< indicatorZPos.x)
+            DegreeAngleZ *= -1;
+        if(!JingsAngleReset)
+        {
+            JingsAngleInitial.x = DegreeAngleA;
+            JingsAngleInitial.y = DegreeAngleB;
+            JingsAngleInitial.z = DegreeAngleZ;
+            JingsAngleReset = true;
+        }
+
+        if(JingsAngleReset){
+            DegreeAngleA -= JingsAngleInitial.x;
+            DegreeAngleB -= JingsAngleInitial.y;
+            DegreeAngleZ -= JingsAngleInitial.z;
+
+            DegreeAngleA = parseFloat(DegreeAngleA.toFixed(1));
+            DegreeAngleB = parseFloat(DegreeAngleB.toFixed(1));
+            DegreeAngleZ = parseFloat(DegreeAngleZ.toFixed(1));
+            //console.log("A: " + DegreeAngleA + ", B: "+ DegreeAngleB + " C: " + DegreeAngleZ);
+            gHardwareEulerAngle.x = DegreeAngleA;
+            gHardwareEulerAngle.y = DegreeAngleB;
+            gHardwareEulerAngle.z = DegreeAngleZ;
+        }
+    }
+}
+
+function getAngleDegree(Axis, a,b,c){
+    var resultAngle = 0;
+    switch(Axis){
+        case 'A':
+        resultAngle = (b * b + c * c - a * a) / (2 * b * c);
+        break;
+
+        case 'B':
+        resultAngle = (c * c + a * a - b * b) / (2 * c * a);
+        break;
+
+        case 'C':
+        resultAngle = (a * a + b * b - c * c) / (2 * a * b);
+        break;
+
+        default:
+        break;
+    }
+    resultAngle = Math.acos(resultAngle);
+    return toDegree(resultAngle);
+}
+
+function record(){
+    if(!recording){
+        recording = true;
+        sysmes.html("Recording!");
+    } else{
+        recording = false;
+        sysmes.html("Recording stopped!");
+    }
+}
+
+function playback(){
+    gVideoReplay = true;
+     if(videoBegin.getTime() <  parseInt(quaternionDataFromLogs[0].timestamp)){
+        uservideo.play();
+        uservideoBeinPlayer = true;
+
+    } else {
+        movementReplayBegin = true;
+    }
+
+    var min = 0;
+    var duration = $('#uservideo')[0].duration;
+    if(videoMonitorEnding != undefined)
+        duration = parseInt((videoMonitorEnding - parseInt(quaternionDataFromLogs[0].timestamp)/1000));
+
+    // hardcode for case 6
+    if(fileIndex == 6){
+        $('#uservideo')[0].currentTime = 401;
+        min = 401;
+    }
+
+    $( "#slider" ).slider({
+        value:0,
+        min: min,
+        max: duration,
+        step: 0.1,
+        slide: function( event, ui ) {
+            //$( "#amount" ).val( "$" + ui.value );
+        }
+    });
+
+
+    rtmHardware();
+}
+
+
+function limitIncomingRotationData(d){
+        if(d.x < 82)
+            return d;
+        else
+            return null;
+}
+
+function handleRealtimeRotation(obj){
+    if(softwareRealtimeRotationInitialized){
+        var resultRotateZ = parseFloat(obj.z) - softwareRealtimeRotationInitial.z;
+        var resultRotateX = parseFloat(obj.x) - softwareRealtimeRotationInitial.x;
+        var resultRotateY = parseFloat(obj.y) - softwareRealtimeRotationInitial.y;
+
+        if(resultRotateZ > 45){
+            cube.rotation.y = -toRad(resultRotateX);
+            cube.rotation.x = -toRad(resultRotateY -90);
+            cube.rotation.z = -toRad(resultRotateZ);
+        } else{
+            cube.rotation.x = toRad(resultRotateX +90 );
+            cube.rotation.y = -toRad(resultRotateY);
+            cube.rotation.z = toRad(resultRotateZ);
+        }
+    } else {
+        softwareRealtimeRotationInitial.x = parseFloat(obj.x);
+        softwareRealtimeRotationInitial.y = parseFloat(obj.y);
+        softwareRealtimeRotationInitial.z = parseFloat(obj.z);
+        softwareRealtimeRotationInitialized = true;
+    }
+}
+
+document.onkeypress = function (e) {
+    e = e || window.event;
+    switch (e.keyCode){
+        case 97:
+        ry += toRad(15);
+         break;
+
+        case 100:
+        ry -= toRad(15);
+        break;
+
+        default:
+        break;
+    }
+};
+
+function toRad(degree){
+    return (degree / 180) * 3.1415926;
+}
+
+function toDegree(rad){
+    return ((rad / 3.1415926) * 180).toFixed(2);
+}
+
+
+function initPhoneMode()
+{
+  var movieGeometry = new THREE.PlaneGeometry( 720,1280, 1,1);
+  var movieScreen = new THREE.Mesh( movieGeometry, screenMesh.material );
+  movieScreen.rotateX(toRad(90));
+  movieScreen.position.z = 110
+
+  scene.add(movieScreen);
+  camera.position.set(0,-1400,0);
+}
+
+
+/*
+addEventListener("click", function() {
+    ph_video[0].play();
+    var el = document.documentElement,
+      rfs = el.requestFullscreen
+        || el.webkitRequestFullScreen
+        || el.mozRequestFullScreen
+        || el.msRequestFullscreen
+    ;
+
+    rfs.call(el);
+});
+*/
+function togglePlayAndPause(){
+    if(gVideoReplay){
+        gVideoReplay = false;
+        uservideo.pause();
+    } else {
+        gVideoReplay = true;
+        uservideo.play();
+    }
+
+    if(!remotePhoneVideoPaused)
+        cmdToPhone('videoPause');
+    else
+        cmdToPhone('videoRun');
+}
+
+function cmdToPhone(cmd){
+    if(conn == undefined)
+        conn = peer.connect('phoneClient');
+    if(conn){
+        switch(cmd){
+            case 'videoPause':
+                conn.send({
+                    'cmd':'videoPause',
+                    'val' : true
+                })
+            remotePhoneVideoPaused = true;
+            break;
+
+            case 'videoRun':
+                conn.send({
+                    'cmd':'videoPause',
+                    'val' : false
+                })
+            remotePhoneVideoPaused = false;
+            break;
+
+            case 'decreasePlayingSpeed':
+                conn.send({
+                    'cmd': 'dnsplay',
+                    'val': 0.05
+                })
+            break;
+
+             case 'increasePlayingSpeed':
+                conn.send({
+                    'cmd': 'insplay',
+                    'val': 0.05
+                })
+            break;
+            default:
+            break;
+        }
+    }
+}
+
+function updatePhoneVideo(){
+    if(conn == undefined)
+        conn = peer.connect('phoneClient');
+
+    conn.send({
+            'cmd' : 'updateFile',
+            'file' : fileIndex
+    });
+}
+
+function connectPhoneClient(){
+    if(conn == undefined)
+        conn = peer.connect('phoneClient');
+    console.log("connecting peer client....");
+    conn.on('open', function(){
+        console.log("connected!!!");
+        $('#phonePeerjsConnectionIndi').css('background-color','green');
+    });
+
+}
+
+peer.on('connection', function(conn) {
+//  returnConn = peer.connect('masterServer');
+  // returnConn.on('open', function(){
+  //   console.log("received! sending back to server");
+  //   returnConn.send("haha!");
+  // });
+  console.log("connected by Phone Terminal!!");
+
+  // returnConn.on('data',)
+  conn.on('data', function(data){
+    // print different commends
+
+    if(data.cmd == undefined)
+        console.log(data);
+    else{
+        var c = data.cmd;
+        switch(c){
+            case 'sync':
+          //  console.log(data);
+          //  console.log(gCurrenTime);
+            console.log(gCurrenTime - data.currentTime);
+            if((gCurrenTime - data.currentTime) > 1)
+                cmdToPhone('increasePlayingSpeed');
+            if((gCurrenTime - data.currentTime < -1))
+                cmdToPhone('decreasePlayingSpeed');
+          break;
+          default:
+          break;
+        }
+    }
+  });
+});
+
+function phoneMode(){
+   /* var phoneModeBack = $('#phoneModeBack');
+    phoneModeBack.css('position','absolute');
+    phoneModeBack.width($(window).width());
+    phoneModeBack.height($(window).height());
+    phoneModeBack.css('z-index','10');
+    phoneModeBack.css('display','block');
+    */
+    initPhoneMode();
+
+}
+
+function MotionReplay(filename){
+    $.ajax({
+        type: "GET",
+        url: "logs/"+filename,
+       // url: "PilotStudy/game/movementtest.csv",
+        dataType: "text",
+        success: function(data) {
+            var index = 0;
+            t = data.split("\n");
+
+            var replay = setInterval(function(){
+                var d = t[index].replace("\"", "").split(",");
+                var q = new THREE.Quaternion(parseFloat(d[0]),parseFloat(d[1]),parseFloat(d[2]),parseFloat(d[3]));
+                cube.setRotationFromQuaternion(q);
+                cbx.updateMatrixWorld();
+                cbo.updateMatrixWorld();
+               // displayCube.rotation.z = cube.rotation.z;
+               // displayCube.rotation.y = cube.rotation.y;
+                indicatorO.rotation.x =  cube.rotation.x;
+                indicatorO.rotation.y =  cube.rotation.y;
+
+                //console.log(cbx.getWorldPosition());
+                if(iniRotationReadyToReset){
+                    iniboxMiddle = cbo.getWorldPosition();
+                    iniboxTop = cbx.getWorldPosition();
+                    iniboxRight = cby.getWorldPosition();
+                    //console.log(getDistance(iniboxTop, iniboxMiddle));
+                    iniRotationReady = true;
+                    iniRotationReadyToReset = false;
+                }
+
+                if(iniRotationReady){
+                    // use law of cosine
+                   // var posa = cbx.getWorldPosition();
+
+                }
+
+                movementTime.html(d[4]);
+              index++;
+              if(index > t.length -3){
+                clearInterval(replay);
+                return;
+                }
+            },5);
+
+        }
+     });
+}
+
+function getDistance(a,b){
+    return Math.sqrt(Math.pow((b.x - a.x),2) + Math.pow((b.y - a.y),2) + Math.pow((b.z - a.z),2));
+}
+
+function recordData(d){
+    d['timestamp']  = new Date().getTime();
+    objHistory.push(d);
+    if(objHistory.length > 100){
+        $.post( "save.php", { filename: "file"+fileTimestamp+".csv", data: JSONArrToCSV(objHistory) }, function(rdata) {
+            if(parseInt(rdata)>0){
+                console.log("saving success at " + new Date() + " New Entry: " + rdata);
+            }
+
+        }).done(function() {
+            alert( "second success" );
+        })
+        objHistory = [];
+    }
+}
+
+function JSONArrToCSV(arr){
+    var resultString = "";
+    for(var i = 0; i < arr.length; i ++){
+        var tmpstring = "";
+        for (var key in arr[i]) {
+          if (arr[i].hasOwnProperty(key)) {
+            tmpstring += arr[i][key] + ",";
+          }
+        }
+        resultString += tmpstring + "\n";
+    }
+    return resultString;
+}
+
+
+</script>
+<div id="phoneModeBack"><video></video><canvas></canvas></div>
+<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+<div id="mainControl">
+    <div><button class="button redButton" onclick="record();"> Record</button>&nbsp;&nbsp;
+<div class="dropdown">
+  <button class="dropbtn">Participant Files</button>
+  <div class="dropdown-content">
+    <a href="?file=4">P1 - Online Shopping</a>
+    <a href="?file=5">P1 - Gaming 1</a>
+    <a href="?file=6">P1 - Gaming 2 </a>
+    <a href="?file=7">P1 - Camera</a>
+    <a href="?file=8">P2 - Online Shopping</a>
+    <a href="?file=9">P2 - Gaming 1</a>
+    <a href="?file=10">P2 - Gaming 2</a>
+    <a href="?file=11">P2 - Camera</a>
+    <a href="?file=12">P3 - Online Shopping</a>
+    <a href="?file=13">P3 - Game 1</a>
+    <a href="?file=14">P3 - Game 2</a>
+    <a href="?file=15">P3 - Camera</a>
+    <a href="?file=16">P4 - Online Shopping</a>
+    <a href="?file=17">P4 - Game 1</a>
+    <a href="?file=18">P4 - Game 2</a>
+    <a href="?file=19">P4 - Camera</a>
+  </div>
+</div>
+    <button class="button blueButton" onclick="playback();"> Playback</button> &nbsp;
+    <button class="button blueButton" onclick="reset();"> Reset</button> &nbsp; <button class="button blueButton" onclick="RotateTexture();"> RotateTexture</button> &nbsp; <button class="button blueButton" onclick="togglePlayAndPause();">Pause/Play</button> &nbsp; <button onclick="rtmSoftReplay();" class="button greenButton"> Realtime Software </button> &nbsp;<button class="button redButton" onclick="rtmHardware();"> Realtime Hardware</button>&nbsp;&nbsp;<button class="button redButton" onclick="connectPhoneClient();">PhoneClient</button></div>
+</div>
+<video id="uservideo" loop webkit-playsinline style="display:none">
+      <source src="PilotStudy/trial4/heather_2017_07_19_15_26_33.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' id="videoSource">
+</video>
+<div id="replayInfo"></div>
+ <div id="sysinfo">
+        <div id="slider-master" style="width:580px;display:block;margin: 100px 0 0 23%;">
+            <p>
+                <label for="amount">Playback Timeline</label>
+                <input type="text" id="amount" style="border: 0 none;border-radius: 4px 4px 4px 4px;color: #F6931F;padding-left: 5px;width: 40px;">
+            </p>
+
+            <div id="slider" style="width:580px;" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"><a class="ui-slider-handle ui-state-default ui-corner-all" href="http://codefusionlab.com/slider_steps2.html#" style="left: 20%; "></a></div>
+
+            <div class="steps">
+                <span style="display:inline-block;width: 3%;text-align:left;margin-right: 13%;">|<br>&nbsp;</span>
+                <span style="display:inline-block;width: 7%;text-align:center;margin-right: 12%;">|<br>*</span>
+                <span style="display:inline-block;width: 7%;text-align:center;margin-right: 12%;">|<br>&nbsp;</span>
+                <span style="display:inline-block;width: 7%;text-align:center;margin-right: 12%;">|<br>*</span>
+                <span style="display:inline-block;width: 7%;text-align:center;margin-right: 9%;">|<br>&nbsp;</span>
+
+            </div>
+        </div>
+        <div id="phonePeerjsConnectionIndi"></div>
+        <div id="sysmes"></div>
+        <strong>Video Time:</strong> <span id="videoTime">1</span><Br>
+        Movement Time:<span id="movementTime">2</span><br>
+        <span id="SpeedRatio"></span>
+ </div>
+
+</body>
+</html>
+
+<!--9374889684090231327405-->

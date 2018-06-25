@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>ph_video Texture (Three.js)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+<body>
+<style type="text/css">
+  body{
+    background-color: rgb(20,20,20);
+    overflow: hidden;;
+  }
+
+  #cover{
+    position: absolute;
+    z-index: 10;
+    background-color: #000000;
+    opacity: 0.5;
+    width:500px;
+    height: 800px;
+    color: #ffffff;
+    font-size: 100px;
+    display: none;
+ }
+
+ #cover_font{
+  position: relative;
+  margin: 150px auto 0 20px;
+ }
+</style>
+<script src="build/Three.js"></script>
+<script src="build/Detector.js"></script>
+<script src="build/THREEx.FullScreen.js"></script>
+<script src="build/THREEx.WindowResize.js"></script>
+<script src="../../js/peer.min.js"></script>
+<!-- jQuery code to display an information button and box when clicked. -->
+<script src="../../js/jquery.js"></script>
+</div>
+
+<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+<div id="cover"><div id="cover_font">Paused</div></div>
+<script>
+var peer = new Peer('phoneClient',{host: '172.18.143.153', port: 8888, path: '/'});
+
+// standard global variables
+var ph_container, ph_scene, ph_camera, ph_renderer,screenMesh;
+// custom global variables
+var ph_video, ph_videoImage, ph_videoImageContext, ph_videoTexture;
+
+var clickCount = 0;
+
+var orientationTriggered = false;
+
+var returnConn;
+var playbacks = [
+// Neilly online shopping.csv
+    {
+     'videoStartTime' : '2017/07/20 15:24:01',
+      'movementStartTime':'2017/07/20 15:23:52',
+      'currentReplayLogFile' : "logs/neilly_1_shopping.csv",
+      'videoFilename' : 'PilotStudy/trial4/neilly_2017_07_20_15_23_57.mp4'
+    },
+// Neilly flying car
+    {'videoStartTime' : '2017/07/20 15:59:16',
+      'movementStartTime':'2017/07/20 15:59:01',
+      'currentReplayLogFile' : "logs/neilly_3_flying cars.csv",
+      'videoFilename' : 'PilotStudy/trial4/Neilly_game_2017_07_20_15_59_12.mp4'
+    },
+// Meng kun, shopping // more movement than sitting on chair????
+// related to how relax they are? motion is also related to the engagement and relax.
+    {'videoStartTime' : '2017/07/20 20:43:05',
+      'movementStartTime':'2017/07/20 20:42:52',
+      'currentReplayLogFile' : "logs/mengkun_7_20_1_onlienshopping.csv",
+      'videoFilename' : 'PilotStudy/trial4/2017_07_20_20_43_03.mp4'
+    },
+    {'videoStartTime' : '2017/07/20 20:48:50',
+      'movementStartTime':'2017/07/20 20:47:32',
+      'currentReplayLogFile' : "logs/mengkun_7_20_2_games.csv",
+      'videoFilename' : 'PilotStudy/trial4/2017_07_20_20_48_48.mp4'
+    },
+    { //P1-ONLINE SHOPPING 4
+      'videoStartTime' : '2017_08_03_21_49_26',
+      'movementStartTime':'1501811376253',
+      'currentReplayLogFile' : "logs/p1/Jonny_online_shopping.csv",
+      'videoFilename' : 'studyI/P1/2017_08_03_21_49_22.mp4'
+    }
+    ,
+    { //P1-Game 1 5
+      'videoStartTime' : '2017_08_03_21_57_19',
+      'movementStartTime':'1501811376253',
+      'currentReplayLogFile' : "logs/p1/Jonny_gaming-1.csv",
+      'videoFilename' : 'studyI/P1/p1_games_small.mp4',
+      'ending': '1501812239000'
+    }
+    ,
+    { //P1-GAMES 2 6
+      'videoStartTime' : '2017_08_03_21_57_18',
+      'movementStartTime':'1501811854975',
+      'currentReplayLogFile' : "logs/p1/Jonny_gaming-2.csv",
+      'videoFilename' : 'studyI/P1/p1_games_small.mp4'
+      // 13226
+    },
+    { //P1-Camera 7
+      'videoStartTime' : '2017_08_03_22_10_07',
+      'movementStartTime':'1501812529231',
+      'currentReplayLogFile' : "logs/p1/Johnny_camera.csv",
+      'videoFilename' : 'studyI/P1/2017_08_03_22_10_04.mp4',
+      'ending': '1501812688111'
+    },
+    { //P2-ONLINE SHOPPING 8
+      'videoStartTime' : '2017_08_04_16_07_58',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p2/file1501877086_onlineshopping.csv",
+      'videoFilename' : 'studyI/P2/2017_08_04_16_07_55.mp4'
+    }
+    ,
+    { //P2-GAMES-1 9
+      'videoStartTime' : '2017_08_04_16_14_17',
+      'movementStartTime':'1501811854975',
+      'currentReplayLogFile' : "logs/p2/file1501877665437_game1.csv",
+      'videoFilename' : 'studyI/P2/2017_08_04_16_14_14.mp4'
+    },
+    { //P2-GAME-2 10
+      'videoStartTime' : '2017_08_04_16_18_36',
+      'movementStartTime':'1501812529231',
+      'currentReplayLogFile' : "logs/p2/file1501877086_game2.csv?do=123",
+      'videoFilename' : 'studyI/P2/P2_small_2017_08_04_16_18_33.mp4'
+    },
+    { //P2-CAMERA 11
+      'videoStartTime' : '2017_08_04_16_24_35',
+      'movementStartTime':'1501812529231',
+      'currentReplayLogFile' : "logs/p2/file1501877086-camera.csv?do=123",
+      'videoFilename' : 'studyI/P2/2017_08_04_16_24_32.mp4',
+      'ending': '1501878335690'
+    },
+    { //P3-ONLINE SHOPPING 12
+      'videoStartTime' : '2017_08_14_12_34_55',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p3/file1502727749-onlineshopping.csv",
+      'videoFilename' : 'studyI/P3/2017_08_14_12_34_56.mp4',
+      'ending' : '1502728980544'
+
+    },
+    { //P3-GAME-1 13
+      'videoStartTime' : '2017_08_14_12_44_48',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p3/file1502727749-game1.csv?do=123",
+      'videoFilename' : 'studyI/P3/p3_small_2017_08_14_12_44_49.mp4',
+      'ending' : '1502729451000'
+    },
+    { //P3-GAME-2 14
+      'videoStartTime' : '2017_08_14_12_55_54',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p3/file1502727749-game2.csv",
+      'videoFilename' : 'studyI/P3/p3_small2_2017_08_14_12_55_54.mp4',
+      'ending' : '1502730250111'
+    },
+    { //P3-Camera 15
+      'videoStartTime' : '2017_08_14_13_06_14',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p3/file1502727749.csv",
+      'videoFilename' : 'studyI/P3/2017_08_14_13_06_14.mp4',
+      'ending':'1502730439000'
+    },
+    { //P4-Online Shopping 16
+      'videoStartTime' : '2017_08_16_15_06_08',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p4/file1502909950_online.csv",
+      'videoFilename' : 'studyI/P4/2017_08_16_15_06_03.mp4',
+      'ending':'1502910640000'
+    },
+    { //P4-Game 1 17
+      'videoStartTime' : '2017_08_16_15_11_21',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p4/file1502909950_g1.csv?do=123",
+      'videoFilename' : 'studyI/P4/2017_08_16_15_11_16.mp4'
+    },
+    { //P4-GAME 2 18
+      'videoStartTime' : '2017_08_16_15_19_30',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p4/file1502909950_g2.csv?do=2222",
+      'videoFilename' : 'studyI/P4/2017_08_16_15_19_25.mp4'
+    },
+    { //P4-Camera 19
+      'videoStartTime' : '2017_08_16_15_25_15',
+      'movementStartTime':'1501877282944',
+      'currentReplayLogFile' : "logs/p4/file1502909950_camera.csv?do=12121",
+      'videoFilename' : 'studyI/P4/2017_08_16_15_25_11.mp4',
+      'ending':'1502911639111'
+    }
+]
+
+var fileIndex = getParameterByName('file') ? parseInt(getParameterByName('file')) : 4;
+
+var ph_videoStartTime = playbacks[fileIndex].videoStartTime;
+var movementStartTime = playbacks[fileIndex].movementStartTime;
+var currentReplayLogFile =  playbacks[fileIndex].currentReplayLogFile;
+var ph_videoFilename =  playbacks[fileIndex].videoFilename;
+var ph_videoMonitorEnding = playbacks[fileIndex].ending ? parseInt(parseInt(playbacks[fileIndex].ending) / 1000) : undefined;
+
+$(document).ready(function(){
+  init();
+  animate();
+  window.addEventListener("deviceorientation", handleOrientation, true);
+})
+
+returnConn = peer.connect('masterServer');
+
+peer.on('connection', function(conn) {
+//  returnConn = peer.connect('masterServer');
+  // returnConn.on('open', function(){
+  //   console.log("received! sending back to server");
+  //   returnConn.send("haha!");
+  // });
+  console.log("connected by server!!");
+
+  // returnConn.on('data',)
+  conn.on('data', function(data){
+    // print different commends
+    console.log(data);
+    if(data.cmd == undefined)
+        console.log(data);
+    else{
+        var c = data.cmd;
+        switch(c){
+          case 'updateFile':
+              data.file = data.file || 5;
+              location.href = 'phoneMode.html?file='+data.file;
+          break;
+
+          case 'videoPause':
+               var value = data.val;
+
+              if(value){
+                   ph_video.pause();
+                   $('#cover').css("display","block");
+              } else {
+                   ph_video.play();
+                   $('#cover').css("display","none");
+              }
+          break;
+
+          case 'insplay':
+            if(data.val){
+              if(ph_video.playbackRate < 1.4)
+              ph_video.playbackRate += parseFloat(data.val);
+              console.log("increasing speed");
+            }
+          break;
+
+           case 'dnsplay':
+            if(data.val){
+              if(ph_video.playbackRate > 0.8)
+                ph_video.playbackRate -= parseFloat(data.val);
+              console.log("----decreasing speed");
+            }
+          break;
+
+          default:
+          break;
+        }
+    }
+  });
+});
+
+function handleOrientation(event){
+  if(window.innerWidth > window.innerHeight && !orientationTriggered){
+    console.log("landscape!");
+    RotateTexture();
+    orientationTriggered = true;
+  }
+}
+function init()
+{
+  // ph_scene
+  ph_scene = new THREE.Scene();
+  // ph_camera
+  var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+  var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+  ph_camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+  ph_scene.add(ph_camera);
+  ph_camera.position.set(0,-200,400);
+
+  // ph_renderer
+  if ( Detector.webgl )
+    ph_renderer = new THREE.WebGLRenderer( {antialias:true} );
+  else
+    ph_renderer = new THREE.CanvasRenderer();
+
+  ph_renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+  ph_container = document.getElementById( 'ThreeJS' );
+  ph_container.appendChild( ph_renderer.domElement );
+  // EVENTS
+  THREEx.WindowResize(ph_renderer, ph_camera);
+  THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+
+  // LIGHT
+  var light = new THREE.PointLight(0xffffff);
+  light.position.set(0,250,0);
+  ph_scene.add(light);
+
+  // create the ph_video element
+  ph_video = document.createElement( 'video' );
+  ph_video.src = ph_videoFilename;
+  ph_video.load(); // must call after setting/changing source
+  //ph_video.play();
+  ph_video.addEventListener("timeupdate", function() {
+//       console.log(this.currentTime)
+    if(returnConn)
+      returnConn.send({cmd:'sync',currentTime:this.currentTime, 'playbackRate':this.playbackRate });
+  });
+
+  ph_videoImage = document.createElement( 'canvas' );
+  ph_videoImage.width = 1280;
+  ph_videoImage.height = 1280;
+
+  ph_videoImageContext = ph_videoImage.getContext( '2d' );
+  // background color if no ph_video present
+  ph_videoImageContext.fillStyle = '#000000';
+  ph_videoImageContext.fillRect( 0, 0, ph_videoImage.width, ph_videoImage.height );
+
+  ph_videoTexture = new THREE.Texture( ph_videoImage );
+  ph_videoTexture.minFilter = THREE.LinearFilter;
+  ph_videoTexture.magFilter = THREE.LinearFilter;
+
+  var movieMaterial = new THREE.MeshBasicMaterial( { map: ph_videoTexture, overdraw: true, side:THREE.DoubleSide } );
+  // the geometry on which the movie will be displayed;
+  //    movie image will be scaled to fit these dimensions.
+  var ww = $(document).width();
+  var wh = $(document).height();
+  console.log(ww);
+  console.log(wh);
+  var movieGeometry = new THREE.PlaneGeometry( 720,1280, 1,1);
+
+  screenMesh = new THREE.Mesh( movieGeometry, movieMaterial );
+  // movieGeometry.rotateZ(toRad(-90));
+  // movieMaterial.map.repeat.x = 2.14
+  // movieMaterial.map.repeat.y = 4.5;
+   movieMaterial.map.offset.x = .35
+   movieMaterial.map.offset.y = 0.3
+  // movieMaterial.map.offset.y = -1.9
+  movieMaterial.map.repeat.x = .35;
+  movieMaterial.map.repeat.y = .62;
+
+  //movieMaterial.map.repeat.y = .5;
+  //  screenMesh.position.set(0,50,0);
+  ph_scene.add(screenMesh);
+
+  ph_camera.position.set(-30,200,1400);
+
+}
+
+function RotateTexture(){
+
+    screenMesh.scale.x = 1.7;
+    screenMesh.scale.y = 1;
+    //144,256,5
+    screenMesh.material.map.offset.y = 0;
+    screenMesh.material.map.repeat.y = 1;
+    screenMesh.material.map.repeat.x = 1;
+    screenMesh.material.map.offset.x = 0;
+}
+
+
+function animate()
+{
+  requestAnimationFrame( animate );
+  render();
+}
+
+function toRad(degree){
+    return (degree / 180) * 3.1415926;
+}
+
+function render()
+{
+  if ( ph_video.readyState === ph_video.HAVE_ENOUGH_DATA )
+  {
+    ph_videoImageContext.drawImage( ph_video, 0, 0 );
+    if ( ph_videoTexture )
+      ph_videoTexture.needsUpdate = true;
+  }
+
+  ph_renderer.render( ph_scene, ph_camera );
+}
+
+addEventListener("click", function() {
+  if(clickCount == 0){
+    ph_video.play();
+    //hardcode
+    if(fileIndex == 6){
+        ph_video.currentTime = 401;
+    }
+    var el = document.documentElement,
+      rfs = el.requestFullscreen
+        || el.webkitRequestFullScreen
+        || el.mozRequestFullScreen
+        || el.msRequestFullscreen
+    ;
+
+    rfs.call(el);
+  } else {
+    RotateTexture();
+  }
+    clickCount++;
+
+});
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+
+
+</script>
+
+</body>
+</html>

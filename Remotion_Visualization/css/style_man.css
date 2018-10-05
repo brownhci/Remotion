@@ -1,0 +1,160 @@
+html, body{
+    color:#ccc;
+}
+/*
+html{
+background-image: url("../assets/grid.jpg?rand=123");
+background-size: cover;
+}
+*/
+.bigbutton{
+    width: 120px;
+    height:60px;
+    margin: 0 0 15px 0;
+}
+#controls{
+
+}
+
+#canvas {
+    position: fixed;
+    border-style: solid;
+    border-width: 1px;
+    z-index: -1;
+}
+
+
+#myCanvas{
+    position: absolute;
+}
+.ui-draggable{
+    background-color: #ff8800;
+}
+
+#predict {
+    color: rgb(0, 0, 255);
+}
+
+#measure {
+    color: rgb(255, 165, 0);
+}
+
+#description {
+    float: left;
+}
+
+#messager{
+    position: absolute;
+    font: #fff;
+    width: 1000px;
+    height: 1000px;
+    background-color: #000;
+    opacity: 0.8;
+    font-family: Heveltica, Arial;
+    font-size: 48px;
+    text-align: center;
+    padding-top: 20%;
+    z-index: 100;
+    top: 0;
+    left: 0;
+}
+#model{
+    top: 300px;
+    margin: 0 auto 0 auto;
+}
+.container {
+    width: 100%;
+    text-align: center;
+    height: 100px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    -webkit-perspective: 1000px;
+    -moz-perspective: 1000px;
+    -o-perspective: 1000px;
+    perspective: 1000px;
+}
+.center{
+    width: 100%;
+    text-align: center;
+    margin-top: 300px;
+    height: 100px;
+}
+#refresh{
+    width: 150px;
+    height: 75px;
+    margin-left: 0 auto 0 auto;
+
+}
+#cube {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    margin-left: 450px;
+    margin-top: 185px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.reference_dash {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+#debugCanv {
+    top: 0;
+    position: absolute;
+    z-index: 1000;
+    display: block;
+}
+
+.graph_container{
+    height: 150px;
+    width: 400px;
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+}
+
+.graph_val {
+    padding: 10px;
+    box-sizing: border-box;
+    color: black;
+    font-size: 1.1em;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+.info_overlay {
+    position: absolute;
+    right: 50px;
+    height: 400px;
+    width: 400px;
+    top: 20px;
+    color: white;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1.2em;
+    opacity: 1;
+    transition: opacity .3s;
+    border-top: 3px solid white;
+    padding-top: 20px;
+    box-sizing: border-box;
+}
+
+.hide {
+    opacity: 0;
+}
+
+span.title {
+    font-size: 2.2em;
+    font-weight: bold;
+    display: block;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

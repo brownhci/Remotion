@@ -1,0 +1,118 @@
+body,html{
+    font-family: HelveticaNeueTF;
+    overflow: hidden;;
+}
+.blueButton {
+    background-color: #21d2ff;
+}
+.greenButton{
+    background-color: #61f4e1;
+}
+.redButton{
+    background-color: #fc8785;
+}
+.button{
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+#sysinfo{
+    position: absolute;
+    bottom: 0;
+    margin: 0 0 10px 10px;
+}
+.systemIndicator{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    margin: 0px 0px 10px 0;
+      border-radius: 3px;
+}
+#mainControl{
+    margin:  0px 0 15px 0;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 360px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+@font-face {
+    font-family: HelveticaNeueTF;
+    src: url(HelveticaNeueLTPro-Th.woff);
+}
+#phoneModeBack{
+    background-color: #fff;
+    display: none;
+}
+#replayInfo{
+    width: 300px;
+    float: right;
+    margin: -55px -10px 0 0;
+}
+.ui-slider .ui-slider-handle {
+    background: black;
+    width: 5px;
+}

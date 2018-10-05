@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>ph_video Texture (Three.js)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+</head>
+<body>
+<style type="text/css">
+  body{
+    background-color: rgb(20,20,20);
+    overflow: hidden;;
+  }
+
+  #cover{
+    position: absolute;
+    z-index: 10;
+    background-color: #000000;
+    opacity: 0.5;
+    width:500px;
+    height: 800px;
+    color: #ffffff;
+    font-size: 100px;
+    display: none;
+ }
+
+ #cover_font{
+  position: relative;
+  margin: 150px auto 0 20px;
+ }
+</style>
+<script src="build/Three.js"></script>
+<script src="build/Detector.js"></script>
+<script src="build/THREEx.FullScreen.js"></script>
+<script src="build/THREEx.WindowResize.js"></script>
+<script src="js/peer.min.js"></script>
+<!-- jQuery code to display an information button and box when clicked. -->
+<script src="js/jquery.js"></script>
+</div>
+
+<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+<div id="cover"><div id="cover_font">Paused</div></div>
+<script>
+var peer = new Peer('phoneClient',{host: '10.0.0.54', port: 8888, path: '/'});
+
+// standard global variables
+var ph_container, ph_scene, ph_camera, ph_renderer,screenMesh;
+// custom global variables
+var ph_video, ph_videoImage, ph_videoImageContext, ph_videoTexture;
+
+var clickCount = 0;
+
+var orientationTriggered = false;
+
+var returnConn;
+var playbacks = [
+// Neilly online shopping.csv
+    {
+     'videoStartTime' : '2017/07/20 15:24:01',
+      'movementStartTime':'2017/07/20 15:23:52',
+      'currentReplayLogFile' : "logs/neilly_1_shopping.csv",
+      'videoFilename' : 'video/neilly_2017_07_20_15_23_57.mp4'
+    },
+
+     {
+     'videoStartTime' : '2017/07/20 15:24:01',
+      'movementStartTime':'2017/07/20 15:23:52',
+      'currentReplayLogFile' : "logs/neilly_1_shopping.csv",
+      'videoFilename' : 'video/neilly_2017_07_20_15_23_57.mp4'
+    }
+]
+
+var fileIndex = getParameterByName('file') ? parseInt(getParameterByName('file')) : 0;
+
+var ph_videoStartTime = playbacks[fileIndex].videoStartTime;
+var movementStartTime = playbacks[fileIndex].movementStartTime;
+var currentReplayLogFile =  playbacks[fileIndex].currentReplayLogFile;
+var ph_videoFilename =  playbacks[fileIndex].videoFilename;
+var ph_videoMonitorEnding = playbacks[fileIndex].ending ? parseInt(parseInt(playbacks[fileIndex].ending) / 1000) : undefined;
+
+$(document).ready(function(){
+  init();
+  animate();
+  window.addEventListener("deviceorientation", handleOrientation, true);
+})
+
+returnConn = peer.connect('masterServer');
+
+peer.on('connection', function(conn) {
+//  returnConn = peer.connect('masterServer');
+  // returnConn.on('open', function(){
+  //   console.log("received! sending back to server");
+  //   returnConn.send("haha!");
+  // });
+  console.log("connected by server!!");
+
+  // returnConn.on('data',)
+  conn.on('data', function(data){
+    // print different commends
+    console.log(data);
+    if(data.cmd == undefined)
+        console.log(data);
+    else{
+        var c = data.cmd;
+        switch(c){
+          case 'updateFile':
+              data.file = data.file || 5;
+              location.href = 'phoneMode.html?file='+data.file;
+          break;
+
+          case 'videoPause':
+               var value = data.val;
+
+              if(value){
+                   ph_video.pause();
+                   $('#cover').css("display","block");
+              } else {
+                   ph_video.play();
+                   $('#cover').css("display","none");
+              }
+          break;
+
+          case 'insplay':
+            if(data.val){
+              if(ph_video.playbackRate < 1.4)
+              ph_video.playbackRate += parseFloat(data.val);
+              console.log("increasing speed");
+            }
+          break;
+
+           case 'dnsplay':
+            if(data.val){
+              if(ph_video.playbackRate > 0.8)
+                ph_video.playbackRate -= parseFloat(data.val);
+              console.log("----decreasing speed");
+            }
+          break;
+
+          default:
+          break;
+        }
+    }
+  });
+});
+
+function handleOrientation(event){
+  if(window.innerWidth > window.innerHeight && !orientationTriggered){
+    console.log("landscape!");
+    RotateTexture();
+    orientationTriggered = true;
+  }
+}
+function init()
+{
+  // ph_scene
+  ph_scene = new THREE.Scene();
+  // ph_camera
+  var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+  var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+  ph_camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+  ph_scene.add(ph_camera);
+  ph_camera.position.set(0,-200,400);
+
+  // ph_renderer
+  if ( Detector.webgl )
+    ph_renderer = new THREE.WebGLRenderer( {antialias:true} );
+  else
+    ph_renderer = new THREE.CanvasRenderer();
+
+  ph_renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+  ph_container = document.getElementById( 'ThreeJS' );
+  ph_container.appendChild( ph_renderer.domElement );
+  // EVENTS
+  THREEx.WindowResize(ph_renderer, ph_camera);
+  THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+
+  // LIGHT
+  var light = new THREE.PointLight(0xffffff);
+  light.position.set(0,250,0);
+  ph_scene.add(light);
+
+  // create the ph_video element
+  ph_video = document.createElement( 'video' );
+  ph_video.src = ph_videoFilename;
+  ph_video.load(); // must call after setting/changing source
+  //ph_video.play();
+  ph_video.addEventListener("timeupdate", function() {
+//       console.log(this.currentTime)
+    if(returnConn)
+      returnConn.send({cmd:'sync',currentTime:this.currentTime, 'playbackRate':this.playbackRate });
+  });
+
+  ph_videoImage = document.createElement( 'canvas' );
+  ph_videoImage.width = 720;
+  ph_videoImage.height = 1280;
+
+  ph_videoImageContext = ph_videoImage.getContext( '2d' );
+  // background color if no ph_video present
+  ph_videoImageContext.fillStyle = '#000000';
+  ph_videoImageContext.fillRect( 0, 0, ph_videoImage.width, ph_videoImage.height );
+
+  ph_videoTexture = new THREE.Texture( ph_videoImage );
+  ph_videoTexture.minFilter = THREE.LinearFilter;
+  ph_videoTexture.magFilter = THREE.LinearFilter;
+
+  var movieMaterial = new THREE.MeshBasicMaterial( { map: ph_videoTexture, overdraw: true, side:THREE.DoubleSide } );
+  // the geometry on which the movie will be displayed;
+  //    movie image will be scaled to fit these dimensions.
+  var ww = $(document).width();
+  var wh = $(document).height();
+  console.log(ww);
+  console.log(wh);
+  var movieGeometry = new THREE.PlaneGeometry( 720,1280, 1,1);
+
+  screenMesh = new THREE.Mesh( movieGeometry, movieMaterial );
+  // movieGeometry.rotateZ(toRad(-90));
+  // movieMaterial.map.repeat.x = 2.14
+  // movieMaterial.map.repeat.y = 4.5;
+   movieMaterial.map.offset.x = 0.0
+   movieMaterial.map.offset.y = 0.0
+  // movieMaterial.map.offset.y = -1.9
+  movieMaterial.map.repeat.x = 1;
+  movieMaterial.map.repeat.y = 1;
+
+  //movieMaterial.map.repeat.y = .5;
+  //  screenMesh.position.set(0,50,0);
+  ph_scene.add(screenMesh);
+
+  ph_camera.position.set(0,0,1400);
+
+}
+
+function RotateTexture(){
+
+    screenMesh.scale.x = 1.7;
+    screenMesh.scale.y = 1;
+    //144,256,5
+    screenMesh.material.map.offset.y = 0;
+    screenMesh.material.map.repeat.y = 1;
+    screenMesh.material.map.repeat.x = 1;
+    screenMesh.material.map.offset.x = 0;
+}
+
+
+function animate()
+{
+  requestAnimationFrame( animate );
+  render();
+}
+
+function toRad(degree){
+    return (degree / 180) * 3.1415926;
+}
+
+function render()
+{
+  if ( ph_video.readyState === ph_video.HAVE_ENOUGH_DATA )
+  {
+    ph_videoImageContext.drawImage( ph_video, 0, 0 );
+    if ( ph_videoTexture )
+      ph_videoTexture.needsUpdate = true;
+  }
+
+  ph_renderer.render( ph_scene, ph_camera );
+}
+
+addEventListener("click", function() {
+  if(clickCount == 0){
+    ph_video.play();
+    //hardcode
+    if(fileIndex == 6){
+        ph_video.currentTime = 401;
+    }
+    var el = document.documentElement,
+      rfs = el.requestFullscreen
+        || el.webkitRequestFullScreen
+        || el.mozRequestFullScreen
+        || el.msRequestFullscreen
+    ;
+
+    rfs.call(el);
+  } else {
+  //  RotateTexture();
+  }
+    clickCount++;
+
+});
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+
+
+</script>
+
+</body>
+</html>

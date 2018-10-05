@@ -1,0 +1,148 @@
+	html, body{
+		background-color:#000;
+		color:#ccc;
+		overflow: hidden;
+	}
+	.bigbutton{
+		width: 120px;
+		height:60px;
+		margin: 0 0 15px 0;
+		}
+	#controls{
+
+	}
+
+	#canvas {
+  position: fixed;
+  border-style: solid;
+  border-width: 1px;
+  z-index: -1;
+}
+
+#predict {
+  color: rgb(0, 0, 255);
+}
+
+#measure {
+  color: rgb(255, 165, 0);
+}
+
+#description {
+  float: left;
+}
+
+
+	#messager{
+		position: absolute;;
+		font: #fff;
+		width: 1000px;
+		height: 1000px;
+		background-color: #000;
+		opacity: 0.8;
+		font-family: Heveltica, Arial;
+		font-size: 48px;
+		text-align: center;
+		padding-top: 20%;
+		z-index: 100;
+		top: 0;
+		left: 0;
+	}
+	.container {
+		width: 200px;
+		height: 200px;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: auto;
+		border: 1px dashed #CCC;
+		-webkit-perspective: 1000px;
+		-moz-perspective: 1000px;
+		-o-perspective: 1000px;
+		perspective: 1000px;
+	}
+	.center{
+		width: 100%;
+		text-align: center;
+		margin-top: 0px;
+		height: 100px;
+	}
+	#refresh{
+		width: 150px;
+		height: 75px;
+		margin-left: 0 auto 0 auto;
+
+	}
+	#cube {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		-webkit-transform-style: preserve-3d;
+		-moz-transform-style: preserve-3d;
+		-o-transform-style: preserve-3d;
+		transform-style: preserve-3d;
+	}
+
+	#cube figure {
+		margin: 0;
+		display: block;
+		position: absolute;
+		width: 196px;
+		height: 196px;
+		border: 2px solid white;
+		line-height: 196px;
+		font-size: 120px;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+		color: white;
+		text-align: center;
+	}
+
+	#cube figure {
+		background: rgba(255, 102, 0, 0.7);
+	}
+
+	#cube .front {
+		-webkit-transform: translateZ( 100px);
+		-moz-transform: translateZ( 100px);
+		-o-transform: translateZ( 100px);
+		transform: translateZ( 100px);
+	}
+
+	#cube .back {
+		-webkit-transform: rotateX( -180deg) translateZ( 100px);
+		-moz-transform: rotateX( -180deg) translateZ( 100px);
+		-o-transform: rotateX( -180deg) translateZ( 100px);
+		transform: rotateX( -180deg) translateZ( 100px);
+	}
+
+	#cube .right {
+		-webkit-transform: rotateY( 90deg) translateZ( 100px);
+		-moz-transform: rotateY( 90deg) translateZ( 100px);
+		-o-transform: rotateY( 90deg) translateZ( 100px);
+		transform: rotateY( 90deg) translateZ( 100px) ;
+
+
+	}
+
+	#cube .left {
+		-webkit-transform: rotateY( -90deg) translateZ( 100px);
+		-moz-transform: rotateY( -90deg) translateZ( 100px);
+		-o-transform: rotateY( -90deg) translateZ( 100px);
+		transform: rotateY( -90deg) translateZ( 100px);
+
+	}
+
+	#cube .top {
+		-webkit-transform: rotateX( 90deg) translateZ( 100px);
+		-moz-transform: rotateX( 90deg) translateZ( 100px);
+		-o-transform: rotateX( 90deg) translateZ( 100px);
+		transform: rotateX( 90deg) translateZ( 100px);
+	}
+
+	#cube .bottom {
+		-webkit-transform: rotateX( -90deg) translateZ( 100px);
+		-moz-transform: rotateX( -90deg) translateZ( 100px);
+		-o-transform: rotateX( -90deg) translateZ( 100px);
+		transform: rotateX( -90deg) translateZ( 100px);
+	}

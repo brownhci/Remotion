@@ -41,7 +41,8 @@
 <div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
 <div id="cover"><div id="cover_font">Paused</div></div>
 <script>
-var peer = new Peer('phoneClient',{host: '10.0.0.54', port: 8888, path: '/'});
+var NODE_SERVER = "192.168.128.102";
+var peer = new Peer('phoneClient',{host: NODE_SERVER, port: 8888, path: '/'});
 
 // standard global variables
 var ph_container, ph_scene, ph_camera, ph_renderer,screenMesh;
@@ -54,23 +55,15 @@ var orientationTriggered = false;
 
 var returnConn;
 var playbacks = [
-// Neilly online shopping.csv
-    {
-     'videoStartTime' : '2017/07/20 15:24:01',
-      'movementStartTime':'2017/07/20 15:23:52',
-      'currentReplayLogFile' : "logs/neilly_1_shopping.csv",
-      'videoFilename' : 'video/neilly_2017_07_20_15_23_57.mp4'
+ {
+     'videoStartTime' : '2018/09/30 22:52:26',
+      'movementStartTime':'2018/09/30 22:52:27',
+      'currentReplayLogFile' : "logs/pickup_putdown.csv",
+      'videoFilename' : 'video/demo.mp4'
     },
-
-     {
-     'videoStartTime' : '2017/07/20 15:24:01',
-      'movementStartTime':'2017/07/20 15:23:52',
-      'currentReplayLogFile' : "logs/neilly_1_shopping.csv",
-      'videoFilename' : 'video/neilly_2017_07_20_15_23_57.mp4'
-    }
 ]
 
-var fileIndex = getParameterByName('file') ? parseInt(getParameterByName('file')) : 0;
+var fileIndex = getParameterByName('file') ? parseInt(getParameterByName('file')) : 1;
 
 var ph_videoStartTime = playbacks[fileIndex].videoStartTime;
 var movementStartTime = playbacks[fileIndex].movementStartTime;

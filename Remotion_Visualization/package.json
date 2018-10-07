@@ -13,6 +13,7 @@
     "serialport": "^4.0.6",
     "websocket": "latest",
     "ws": "0.8.1",
-    "peer": "latest"
+    "peer": "latest",
+    "socket.io": "latest"
   }
 }

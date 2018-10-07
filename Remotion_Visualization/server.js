@@ -11,7 +11,7 @@
 // Set IP
 
 //const serverIP = "192.168.1.164";
-const serverIP = "10.0.0.116";
+const serverIP = "169.254.80.80";
 //const serverIP = "172.16.109.54";
 //const serverIP = "10.0.0.6";
 

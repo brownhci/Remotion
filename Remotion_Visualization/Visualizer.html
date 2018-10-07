@@ -5,15 +5,15 @@
 </head>
 <body>
 <script type="text/javascript" src="build/three.js"></script>
-<script type="text/javascript" src="examples/js/renderers/CanvasRenderer.js"></script>
-<script type="text/javascript" src="examples/js/renderers/Projector.js"></script>
-<script src="examples/js/loaders/DDSLoader.js"></script>
-<script src="examples/js/loaders/MTLLoader.js"></script>
-<script src="examples/js/loaders/OBJLoader.js"></script>
+<script type="text/javascript" src="esjs/renderers/CanvasRenderer.js"></script>
+<script type="text/javascript" src="esjs/renderers/Projector.js"></script>
+<script src="esjs/loaders/DDSLoader.js"></script>
+<script src="esjs/loaders/MTLLoader.js"></script>
+<script src="esjs/loaders/OBJLoader.js"></script>
 <script src="build/Detector.js"></script>
 <script src="build/THREEx.FullScreen.js"></script>
 <script src="js/jquery.js"></script>
-<script src="examples/js/controls/OrbitControls.js"></script>
+<script src="esjs/controls/OrbitControls.js"></script>
 <script src="js/socket.io.js"></script>
 <script src="js/peer.min.js"></script>
 <link rel="stylesheet" href="css/jquery-ui.css" />
@@ -34,7 +34,7 @@ var playbacks = [
       'movementStartTime':'2018/09/30 22:52:27',
       'currentReplayLogFile' : "logs/pickup_putdown.csv",
       'videoFilename' : 'video/demo.mp4'
-    },
+    }
 ]
 
 /* argument initialize */
@@ -47,7 +47,7 @@ var currentReplayLogFile = "logs/Jing_test_fps.csv";
 var videoFilename = 'PilotStudy/trial4/Jing-test2017_07_19_16_57_51.mp4';
 */
 /* enter the ip for replay phone, must be in same network */
-var Remotion_DATA_SERVER = '10.0.0.116';
+var Remotion_DATA_SERVER = '169.254.80.80';
 var fileIndex = getParameterByName('file') ? parseInt(getParameterByName('file')) : 0;
 var videoStartTime = playbacks[fileIndex].videoStartTime;
 var movementStartTime = playbacks[fileIndex].movementStartTime;
@@ -1177,9 +1177,8 @@ function JSONArrToCSV(arr){
 <div class="dropdown">
   <button class="dropbtn">Participant Files</button>
   <div class="dropdown-content">
-    <a href="?file=0">Demo Video1</a>
-    <a href="?file=1">Demo Video2</a>
-  </div>
+    <a href="?file=0">Demo Video</a>
+      </div>
 </div>
 
      <button onclick="rtmSoftReplay();" class="button greenButton"> Connect Server </button> &nbsp;<button class="button redButton" onclick="rtmHardware();"> Connect Hardware</button>&nbsp;&nbsp;<button class="button redButton" onclick="connectPhoneClient();">PhoneClient</button>

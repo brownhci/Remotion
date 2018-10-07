@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sensor fusion demo</string>
+    <string name="action_about">Log</string>
+    <string name="on">Logging On</string>
+    <string name="off">Logging Off</string>
+    <string name="title_section1">Improved Orientation Sensor 1</string>
+    <string name="title_section2">Improved Orientation Sensor 2</string>
+    <string name="title_section3">Android Rotation Vector</string>
+    <string name="title_section4">Calibrated Gyroscope</string>
+    <string name="title_section5">Gravity and Compass</string>
+    <string name="title_section6">Accelerometer and Compass</string>
+    <string name="title_activity_sensor_selection">Sensor fusion demo</string>
+    <string name="title_activity_about">Sensor Logging</string>
+    <string name="gyroscope_missing">Gyroscope Missing</string>
+    <string name="gyroscope_missing_message">Your device has no hardware gyroscope sensor, which would be necessary for this app to work properly. Please run it on a newer device that has a gyroscope.</string>
+    <string name="OK">OK</string>
+
+</resources>

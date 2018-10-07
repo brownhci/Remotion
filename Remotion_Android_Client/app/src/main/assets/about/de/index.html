@@ -1,0 +1,64 @@
+<html>
+<body link="#ff8800" vlink="#ff8800" alink="#ff8800">
+
+	<p>
+		Diese App wurde von <a href="http://my-it.at">Alexander Pacha</a> am <a
+			href="http://www.hitlabnz.org">Human Interface Technology
+			Laboratory New Zealand</a> entwickelt und demonstriert die
+		Leistungsfähigkeit von verschiedenen Sensoren und Sensorfusionen.
+		Messungen von dem Gyroskop, Akzelerometer und Kompass werden in
+		verschiedenen Weisen kombiniert und das Ergebnis wird als Würfel
+		visualisiert, der durch rotieren des Gerätes gedreht werden kann.
+	</p>
+	<p>
+		Die große Neuheit in dieser Applikation ist die Fusion von zwei
+		virtuellen Sensoren: <b>Improved Orientation Sensor 1</b> und <b>Improved
+			Orientation Sensor 2</b> nutzen den Android Rotation Vector mit dem
+		kalibrierten Gyroskopsensor und erreichen eine nie zuvor dagewesenen Präzision
+		und Reaktionsfähigkeit.
+	</p>
+
+	<p>Neben diesen beiden Sensorfusionen gibt es noch weitere Sensoren
+		zum Vergleich:</p>
+	<ul>
+		<li>Improved Orientation Sensor 1 (Sensorfusion des Android
+			Rotation Vector und des kalibrierten Gyroskops - weniger stabil,
+			dafür genauer)</li>
+		<li>Improved Orientation Sensor 2 (Sensorfusion des Android
+			Rotation Vector und des kalibrierten Gyroskops - stabiler, dafür
+			ungenauer)</li>
+		<li>Android Rotation Vector (Kalmanfilterfusion von Akzelerometer
+			+ Gyroskop + Kompass) - die bisher beste verfügbare Fusion!</li>
+		<li>Kalibriertes Gyroskop (Weiteres Ergebnis der
+			Kalmanfilterfusion von Akzelerometer + Gyroskop + Kompass). Liefert
+			nur relative Rotation, kann daher von den anderen Sensoren abweichen.</li>
+		<li>Gravitation + Kompass</li>
+		<li>Akzelerometer + Kompass</li>
+	</ul>
+
+	<p>
+		Die Anwendung wurde entwickelt um die im Rahmer der <a
+			href="http://my-it.at/index.php/publikationen">Masterarbeit</a> "Sensor
+		fusion for robust outdoor Augmented Reality tracking on mobile devices"
+		<a href="http://my-it.at/media/MasterThesis-Pacha.pdf">(download)</a>
+		entwickelte Sensorfusion zu demonstrieren. Die App wurde am <a
+			href="http://www.hitlabnz.org">Human Interface Technology
+			Laboratory New Zealand</a> entwickelt.
+	</p>
+	
+	<p>Lange auf den Würfel gedrückt halten, um kurzfristig in den Raummodus zu wechseln.</p>
+
+	<p>
+		Der Quellcode ist öffentlich verfügbar auf <a
+			href="https://bitbucket.org/apacha/sensor-fusion-demo/">Bitbucket</a>
+		unter der MIT Lizenz.
+	</p>
+	
+	<p>
+		Weitere Mitarbeit:
+		<ul>
+			<li><a href="https://github.com/renaudcerrato">Cerrato Renaud</a></li>
+		</ul>
+	</p>
+</body>
+</html>

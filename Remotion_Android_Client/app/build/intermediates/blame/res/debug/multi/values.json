@@ -1,0 +1,334 @@
+[
+    {
+        "outputFile": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 33,
+                    "endOffset": 84
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1069,
+                        "endColumn": 33,
+                        "endOffset": 1098
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 89,
+                    "endColumn": 44,
+                    "endOffset": 129
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 112,
+                        "endColumn": 44,
+                        "endOffset": 152
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 134,
+                    "endColumn": 55,
+                    "endOffset": 185
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endColumn": 55,
+                        "endOffset": 107
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 190,
+                    "endColumn": 63,
+                    "endOffset": 249
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 795,
+                        "endColumn": 63,
+                        "endOffset": 854
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 254,
+                    "endColumn": 209,
+                    "endOffset": 459
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 859,
+                        "endColumn": 209,
+                        "endOffset": 1064
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 464,
+                    "endColumn": 43,
+                    "endOffset": 503
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 199,
+                        "endColumn": 43,
+                        "endOffset": 238
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 508,
+                    "endColumn": 41,
+                    "endOffset": 545
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 157,
+                        "endColumn": 41,
+                        "endOffset": 194
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 550,
+                    "endColumn": 63,
+                    "endOffset": 609
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 731,
+                        "endColumn": 63,
+                        "endOffset": 790
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 614,
+                    "endColumn": 78,
+                    "endOffset": 688
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 652,
+                        "endColumn": 78,
+                        "endOffset": 726
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 693,
+                    "endColumn": 72,
+                    "endOffset": 761
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 243,
+                        "endColumn": 72,
+                        "endOffset": 311
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 766,
+                    "endColumn": 72,
+                    "endOffset": 834
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 316,
+                        "endColumn": 72,
+                        "endOffset": 384
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 839,
+                    "endColumn": 66,
+                    "endOffset": 901
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 389,
+                        "endColumn": 66,
+                        "endOffset": 451
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 14,
+                    "startColumn": 4,
+                    "startOffset": 906,
+                    "endColumn": 63,
+                    "endOffset": 965
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 456,
+                        "endColumn": 63,
+                        "endOffset": 515
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 15,
+                    "startColumn": 4,
+                    "startOffset": 970,
+                    "endColumn": 62,
+                    "endOffset": 1028
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 520,
+                        "endColumn": 62,
+                        "endOffset": 578
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 16,
+                    "startColumn": 4,
+                    "startOffset": 1033,
+                    "endColumn": 68,
+                    "endOffset": 1097
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 583,
+                        "endColumn": 68,
+                        "endOffset": 647
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 1102,
+                    "endLine": 23,
+                    "endColumn": 12,
+                    "endOffset": 1388
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 186,
+                        "endLine": 12,
+                        "endColumn": 12,
+                        "endOffset": 472
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 1393,
+                    "endLine": 26,
+                    "endColumn": 12,
+                    "endOffset": 1548
+                },
+                "from": {
+                    "file": "C:\\xampp\\htdocs\\Remotion-git\\Remotion\\Remotion_Android_Client\\app\\src\\main\\res\\values\\styles.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 510,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 665
+                    }
+                }
+            }
+        ]
+    }
+]

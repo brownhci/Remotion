@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_about"
+        android:checkable="true"
+        android:orderInCategory="102"
+        android:showAsAction="always"
+        android:title="@string/action_about" />
+
+</menu>

@@ -1,7 +1,5 @@
 package org.bhi.sfClient;
 
-import java.util.Locale;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -110,40 +108,15 @@ public class SensorSelectionActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a DummySectionFragment (defined as a static inner class
-            // below) with the page number as its lone argument.
             Fragment fragment = new OrientationVisualisationFragment();
             Bundle args = new Bundle();
-            args.putInt(OrientationVisualisationFragment.ARG_SECTION_NUMBER, position + 1);
             fragment.setArguments(args);
             return fragment;
         }
 
         @Override
         public int getCount() {
-            // Show 6 total pages.
-            return 6;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-            case 0:
-                return getString(R.string.title_section1).toUpperCase(l);
-            case 1:
-                return getString(R.string.title_section2).toUpperCase(l);
-            case 2:
-                return getString(R.string.title_section3).toUpperCase(l);
-            case 3:
-                return getString(R.string.title_section4).toUpperCase(l);
-            case 4:
-                return getString(R.string.title_section5).toUpperCase(l);
-            case 5:
-                return getString(R.string.title_section6).toUpperCase(l);
-            }
-            return null;
+            return 1;
         }
     }
 

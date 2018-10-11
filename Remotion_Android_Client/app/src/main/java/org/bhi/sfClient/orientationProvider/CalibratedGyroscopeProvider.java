@@ -12,7 +12,8 @@ import org.bhi.sfClient.representation.Quaternion;
  * only a relative measurement starting from the point where it started.
  * 
  * @author Alexander Pacha
- * 
+ *
+ * Modified by Jing Qian
  */
 public class CalibratedGyroscopeProvider extends OrientationProvider {
 
@@ -53,7 +54,6 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
      * the sensor will affect this value!
      */
     private double gyroscopeRotationVelocity = 0;
-
     public String rawData = "";
 
     /**
@@ -75,9 +75,7 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
     }
 
     private void storeRawData(SensorEvent event) {
-
         rawData = event.sensor.getName()+",";
-
         for(int i=0; i<event.values.length; i++) {
             rawData+=event.values[i]+",";
         }
@@ -86,7 +84,6 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
         // we received a sensor event. it is a good practice to check
         // that we received the proper event
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -121,6 +118,7 @@ public class CalibratedGyroscopeProvider extends OrientationProvider {
                 deltaQuaternion.setX((float) (sinThetaOverTwo * axisX));
                 deltaQuaternion.setY((float) (sinThetaOverTwo * axisY));
                 deltaQuaternion.setZ((float) (sinThetaOverTwo * axisZ));
+                // the negative needs to be compensated in the playback for correct orientation
                 deltaQuaternion.setW(-(float) cosThetaOverTwo);
 
                 // Matrix rendering in CubeRenderer does not seem to have this problem.

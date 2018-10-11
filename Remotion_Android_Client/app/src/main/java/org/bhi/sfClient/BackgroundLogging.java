@@ -14,10 +14,10 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Calendar;
-
 
 /**
  * Created by iagarwa1 on Jun/21/17.
@@ -31,7 +31,7 @@ public class BackgroundLogging extends IntentService {
     protected final Quaternion quaternion = new Quaternion();
     private  Quaternion pquaternion = new Quaternion();
     public long timestamp = 0;
-    public final long timeDuration = 60*60000; //in milisec
+    public final long timeDuration = 6*1000; //in milisec
     public long startTime;
     public long unixTimestamp = 0;
     private WebSocketClient mWebSocketClient;
@@ -123,25 +123,26 @@ public class BackgroundLogging extends IntentService {
         try {
 
             File outputDir = this.getCacheDir(); // context being the Activity pointer
-            Calendar c = Calendar.getInstance();
-           // String fileTime = c.getTime().toString();
-           // String filename = "Remotion Data" + fileTime +"  ";
-            //File outputFile = File.createTempFile(filename, ".csv", this.getExternalCacheDir());
-           // outputFile.createNewFile();
-           // OutputStream os = new FileOutputStream(outputFile);
+            //Calendar c = Calendar.getInstance();
+            //Date currentTimestamp = c.getTime();
+            String filename = "Remotion_motiondata_";
+            File outputFile = File.createTempFile(filename, ".csv", this.getExternalCacheDir());
+            outputFile.createNewFile();
+            OutputStream os = new FileOutputStream(outputFile);
+            Log.i("output filepath", outputFile.getAbsolutePath());
             startTime = System.currentTimeMillis();
             String quatString = "";
-            while (System.currentTimeMillis() - startTime< timeDuration) {
+            while (System.currentTimeMillis() - startTime < timeDuration) {
 
                 if (timestamp < or.timestamp) {
                         or.getQuaternion(quaternion);
                     unixTimestamp = System.currentTimeMillis();
-                    quatString = unixTimestamp + "," + or.timestamp+",Quaternion,"+quaternion.toString()+"\n";
-
+                    //quatString = unixTimestamp + "," + or.timestamp+",Quaternion,"+quaternion.toString()+"\n";
+                    quatString = quaternion.toString()+"\n";
                     Long etalong = System.currentTimeMillis()- startTime;
                     String eta =  " eta: "+etalong;
                     timestamp = or.timestamp;
-
+                    os.write(quatString.getBytes());
                 }
 
                 if(websocketCount % 5000 == 0 && websocketConnected){
@@ -151,12 +152,13 @@ public class BackgroundLogging extends IntentService {
                 pquaternion = quaternion;
                 websocketCount ++;
             }
-            //os.close();
-//            String subject = "Remotion Data"+fileTime;
-//            String[] address = {"ishaan@brown.edu"};
-//            Uri uri = Uri.parse("file://" + outputFile.getAbsolutePath());
+            os.close();
+            Log.d("loggin-stopped","message logging stopped. Duration is " + (timeDuration / 1000) + " seconds.");
+            //String subject = "Remotion Data";
+            //String[] address = {"jing_qian@brown.edu"};
+          //  Uri uri = Uri.parse(outputFile.getAbsolutePath());
 //
-//            composeEmail(address, subject, uri);
+           // composeEmail(address, subject, uri);
 
         } catch (Exception e) {
             Log.i(TAG, e.toString());

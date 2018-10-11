@@ -9,13 +9,8 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 
-import org.bhi.sfClient.orientationProvider.AccelerometerCompassProvider;
-import org.bhi.sfClient.orientationProvider.GravityCompassProvider;
 import org.bhi.sfClient.orientationProvider.CalibratedGyroscopeProvider;
-import org.bhi.sfClient.orientationProvider.ImprovedOrientationSensor1Provider;
-import org.bhi.sfClient.orientationProvider.ImprovedOrientationSensor2Provider;
 import org.bhi.sfClient.orientationProvider.OrientationProvider;
-import org.bhi.sfClient.orientationProvider.RotationVectorProvider;
 
 /**
  * A fragment that contains the same visualisation for different orientation providers
@@ -62,30 +57,13 @@ public class OrientationVisualisationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Initialise the orientationProvider
         switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
-        case 1:
-            currentOrientationProvider = new ImprovedOrientationSensor1Provider((SensorManager) getActivity()
-                    .getSystemService(SensorSelectionActivity.SENSOR_SERVICE));
-            break;
-        case 2:
-            currentOrientationProvider = new ImprovedOrientationSensor2Provider((SensorManager) getActivity()
-                    .getSystemService(SensorSelectionActivity.SENSOR_SERVICE));
-            break;
-        case 3:
-            currentOrientationProvider = new RotationVectorProvider((SensorManager) getActivity().getSystemService(
-                    SensorSelectionActivity.SENSOR_SERVICE));
-            break;
+
+
         case 4:
             currentOrientationProvider = new CalibratedGyroscopeProvider((SensorManager) getActivity()
                     .getSystemService(SensorSelectionActivity.SENSOR_SERVICE));
             break;
-        case 5:
-            currentOrientationProvider = new GravityCompassProvider((SensorManager) getActivity().getSystemService(
-                    SensorSelectionActivity.SENSOR_SERVICE));
-            break;
-        case 6:
-            currentOrientationProvider = new AccelerometerCompassProvider((SensorManager) getActivity()
-                    .getSystemService(SensorSelectionActivity.SENSOR_SERVICE));
-            break;
+
         default:
             break;
         }

@@ -29,11 +29,24 @@ Remotion Hardware visualization is a fully customizable and low-cost Arduino-con
 
 Remotion's hardware visualization uses the same sensor fusion algorithm with the software counterpart to ensure consistency. On occasion, Remotion needs to swap the x and y-axis in the visualization to make the motion seamless. This is not the case with the Remotion's software visualization since its rotation is quaternion-based. The Remotion's hardware visualization uses Euler angles to rotate the device. Once the user rotates the phone from portrait to landscape, Remotion automatically swaps the x and y-axis to match the visualization.
 
-# Constructing Remotion
+
+# Environment Setup
+Remotion Software require Apache Server and NodeJS. We are working on to merge these tww but for now, Apache server can be install from [Xampp](https://www.apachefriends.org/index.html) and NodeJs can be installed from [Node](https://nodejs.org/en/). 
+
+# Constructing Remotion Hardware
 ![](https://github.com/brownhci/Remotion/blob/master/img/Blueprint_1.jpg)
+
+# Blueprints
+![](https://github.com/brownhci/Remotion/blob/master/img/Blueprint_2.jpg)
 
 ## Installation Video
 [![View On Youtube](https://img.youtube.com/vi/tM0cK9_nD2s/0.jpg)](https://www.youtube.com/watch?v=tM0cK9_nD2s)
 
-# Blueprints
-![](https://github.com/brownhci/Remotion/blob/master/img/Blueprint_2.jpg)
+# Hardware Wiring and Arduino Code.
+
+
+# Constructing Remotion Software
+1. Make sure Remotion_Visualization folder is inside the Xampp's virtual environment folder (i.e., xampp/htdocs/).
+2. Rekmotion visualization works in the local network. Make sure all the executing parts are under the same network.
+3. Change the IP address to your computer (internal IP address) inside Visualizer.html, server.js, and PhoneMode.html.
+

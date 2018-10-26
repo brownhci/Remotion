@@ -31,7 +31,8 @@ public class BackgroundLogging extends IntentService {
     protected final Quaternion quaternion = new Quaternion();
     private  Quaternion pquaternion = new Quaternion();
     public long timestamp = 0;
-    public final long timeDuration = 6*1000; //in milisec
+    /* preset logging time in milli seconds*/
+    public final long timeDuration = 60*1000;
     public long startTime;
     public long unixTimestamp = 0;
     private WebSocketClient mWebSocketClient;
@@ -93,12 +94,10 @@ public class BackgroundLogging extends IntentService {
                 websocketConnected = true;
                 mWebSocketClient.send("Hello from " + Build.MANUFACTURER + " " + Build.MODEL);
             }
-
             @Override
             public void onMessage(String s) {
 
             }
-
             @Override
             public void onClose(int i, String s, boolean b) {
                 Log.i("Websocket", "Closed " + s);
@@ -114,14 +113,11 @@ public class BackgroundLogging extends IntentService {
     @Override
     protected void onHandleIntent(Intent workIntent) {
 
-
         connectWebSocket(workIntent.getStringExtra("ip"));
-
         SensorManager mSensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         CalibratedGyroscopeProvider or = new CalibratedGyroscopeProvider(mSensorManager);
         or.start();
         try {
-
             File outputDir = this.getCacheDir(); // context being the Activity pointer
             //Calendar c = Calendar.getInstance();
             //Date currentTimestamp = c.getTime();
@@ -135,7 +131,7 @@ public class BackgroundLogging extends IntentService {
             while (System.currentTimeMillis() - startTime < timeDuration) {
 
                 if (timestamp < or.timestamp) {
-                        or.getQuaternion(quaternion);
+                    or.getQuaternion(quaternion);
                     unixTimestamp = System.currentTimeMillis();
                     //quatString = unixTimestamp + "," + or.timestamp+",Quaternion,"+quaternion.toString()+"\n";
                     quatString = quaternion.toString()+"\n";
@@ -156,15 +152,12 @@ public class BackgroundLogging extends IntentService {
             Log.d("loggin-stopped","message logging stopped. Duration is " + (timeDuration / 1000) + " seconds.");
             //String subject = "Remotion Data";
             //String[] address = {"jing_qian@brown.edu"};
-          //  Uri uri = Uri.parse(outputFile.getAbsolutePath());
-//
-           // composeEmail(address, subject, uri);
+            //  Uri uri = Uri.parse(outputFile.getAbsolutePath());
+            // composeEmail(address, subject, uri);
 
         } catch (Exception e) {
             Log.i(TAG, e.toString());
             e.printStackTrace();
-
-
         }
     }
 }

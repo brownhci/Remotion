@@ -12,7 +12,7 @@ Remotion is designed to replicate a mobile device's screen content, movement, an
 The Remotion client is the first component of the Remotion platform. It enables collecting mobile sensing data (e.g., gyroscope and accelerometer) and user interaction data (e.g., taps and scrolls) from remote users. The Remotion client records these data in real time and uploads them to the Remotion server upon the completion of the task. The remote user can choose to start, stop, and upload data at will. The client provides the motion-encoded contextual data that can later be revealed to the experimenters.
 
 # Remotion's Screen Projection Component
-The second component provides additional information about the remote user's screen content to the experimenters. The Remotion screen projection component captures the phone's screen changes and sends it to the Remotion server as a compressed image stream. For our user study, we used a simplified scheme which captured the screen with a third-party software~\cite{azscreencapture} and later uploaded the video file to the Remotion's server.
+The second component provides additional information about the remote user's screen content to the experimenters. The Remotion screen projection component captures the phone's screen changes and sends it to the Remotion server as a compressed image stream.
 
 # Remotion's Lightweight Server
 The server functions as a hub to organize, configure, and control the Remotion's visualization ends. The Remotion server supports two modes: 1) offline replay and 2) real-time replay. In the offline replay mode, the server loads data from the Remotion client and the Remotion screen projection components described above, relaying them to Remotion's visualization endpoints within a fixed interval of time. The real-time component decodes the incoming data from Remotion's client and screen projection components and forwards them directly to the visualization endpoints.
@@ -28,3 +28,12 @@ The accuracy of motion replay is ensured with a sensor fusion algorithm package 
 Remotion Hardware visualization is a fully customizable and low-cost Arduino-controlled robotic mount for motion visualization. Its main component consists of a circuit-board, three motors, a 3D-printed mounting system, and a track. When the experimenter mounts a mobile device to the Remotion hardware, it is able to render the motion data and screen content in the experimenter's physical space. Unlike its software counterpart, the physical visualization offers a one-to-one scale motion playback (i.e., replicating the degree of movement, the form of a physical phone, and the contents of the screen mirror the user's screen). This physicality further enables an understanding of spacial depth and a more naturalistic way of observation.
 
 Remotion's hardware visualization uses the same sensor fusion algorithm with the software counterpart to ensure consistency. On occasion, Remotion needs to swap the x and y-axis in the visualization to make the motion seamless. This is not the case with the Remotion's software visualization since its rotation is quaternion-based. The Remotion's hardware visualization uses Euler angles to rotate the device. Once the user rotates the phone from portrait to landscape, Remotion automatically swaps the x and y-axis to match the visualization.
+
+# Constructing Remotion
+![](https://github.com/brownhci/Remotion/blob/master/img/Blueprint_1.jpg)
+
+## Installation Video
+[![View On Youtube](https://img.youtube.com/vi/tM0cK9_nD2s/0.jpg)](https://www.youtube.com/watch?v=tM0cK9_nD2s)
+
+# Blueprints
+![](https://github.com/brownhci/Remotion/blob/master/img/Blueprint_2.jpg)

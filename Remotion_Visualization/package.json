@@ -1,8 +1,8 @@
 {
-  "name": "imotion-server-relay",
+  "name": "Remotion-software",
   "version": "1.0.0",
-  "description": "asdf",
-  "main": "imoserver.js",
+  "description": "Remotoin server",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -31,7 +31,7 @@ Remotion's hardware visualization uses the same sensor fusion algorithm with the
 
 
 # Environment Setup
-Remotion Software require Apache Server and NodeJS. We are working on to merge these tww but for now, Apache server can be install from [Xampp](https://www.apachefriends.org/index.html) and NodeJs can be installed from [Node](https://nodejs.org/en/). 
+Remotion Software require Apache Server and NodeJS. We are working on to merge these two but for now. Apache server can be install from [Xampp](https://www.apachefriends.org/index.html) and NodeJs can be installed from [Node](https://nodejs.org/en/). 
 
 # Constructing Remotion Hardware
 ![](https://github.com/brownhci/Remotion/blob/master/img/Blueprint_1.jpg)
@@ -55,7 +55,7 @@ For Arduino Code, please check out the ArduinoCodes Folder
   
   [Nema 17 Stepper Motor](https://www.amazon.com/gp/product/B01N30ISYC/ref=oh_aui_search_detailpage?ie=UTF8&psc=1)
   
-  [Ball Bearing] (https://www.adafruit.com/product/1178)
+  [Ball Bearing](https://www.adafruit.com/product/1178)
   
   [Stepper Motor Breakout Board](https://www.adafruit.com/product/3297)
   
@@ -63,4 +63,5 @@ For Arduino Code, please check out the ArduinoCodes Folder
 1. Make sure Remotion_Visualization folder is inside the Xampp's virtual environment folder (i.e., xampp/htdocs/).
 2. Rekmotion visualization works in the local network. Make sure all the executing parts are under the same network.
 3. Change the IP address to your computer (internal IP address) inside Visualizer.html, server.js, and PhoneMode.html.
+
 

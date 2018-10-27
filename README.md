@@ -46,6 +46,19 @@ Remotion Software require Apache Server and NodeJS. We are working on to merge t
 ![](https://github.com/brownhci/Remotion/blob/master/img/Remotion_hardwareSchematic.jpg)
 For Arduino Code, please check out the ArduinoCodes Folder
 
+# Where to get the components:
+  [Metal Track](https://www.amazon.com/gp/product/B07FDXHC8X/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1)
+  
+  [Servo Arm Horn Metal Aluminum 25t Silvery](https://www.amazon.com/gp/product/B00NOGMK3M/ref=oh_aui_search_detailpage?ie=UTF8&psc=1)
+  
+  [MG996R Servo](https://www.amazon.com/gp/product/B013II2ZSU/ref=oh_aui_search_detailpage?ie=UTF8&psc=1)
+  
+  [Nema 17 Stepper Motor](https://www.amazon.com/gp/product/B01N30ISYC/ref=oh_aui_search_detailpage?ie=UTF8&psc=1)
+  
+  [Ball Bearing] (https://www.adafruit.com/product/1178)
+  
+  [Stepper Motor Breakout Board](https://www.adafruit.com/product/3297)
+  
 # Constructing Remotion Software
 1. Make sure Remotion_Visualization folder is inside the Xampp's virtual environment folder (i.e., xampp/htdocs/).
 2. Rekmotion visualization works in the local network. Make sure all the executing parts are under the same network.

@@ -43,7 +43,8 @@ Remotion Software require Apache Server and NodeJS. We are working on to merge t
 [![View On Youtube](https://img.youtube.com/vi/tM0cK9_nD2s/0.jpg)](https://www.youtube.com/watch?v=tM0cK9_nD2s)
 
 # Hardware Wiring and Arduino Code.
-
+![](https://github.com/brownhci/Remotion/blob/master/img/Remotion_hardwareSchematic.jpg)
+For Arduino Code, please check out the ArduinoCodes Folder
 
 # Constructing Remotion Software
 1. Make sure Remotion_Visualization folder is inside the Xampp's virtual environment folder (i.e., xampp/htdocs/).

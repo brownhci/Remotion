@@ -13,8 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import org.hitlabnz.sensor_fusion_demo.R;
-
 /**
  * The main activity where the user can select which sensor-fusion he wants to try out
  * 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.hitlabnz.sensor_fusion_demo.test" >
+    package="org.bhi.sfClient.test" >
 
     <uses-sdk
         android:minSdkVersion="18"
@@ -10,8 +10,8 @@
         android:name="android.support.test.runner.AndroidJUnitRunner"
         android:functionalTest="false"
         android:handleProfiling="false"
-        android:label="Tests for org.hitlabnz.sensor_fusion_demo"
-        android:targetPackage="org.hitlabnz.sensor_fusion_demo" />
+        android:label="Tests for org.bhi.sfClient"
+        android:targetPackage="org.bhi.sfClient" />
 
     <application>
         <uses-library android:name="android.test.runner" />

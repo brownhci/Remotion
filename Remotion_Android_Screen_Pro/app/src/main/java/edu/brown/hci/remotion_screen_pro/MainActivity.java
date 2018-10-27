@@ -1,4 +1,5 @@
 package edu.brown.hci.remotion_screen_pro;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +22,13 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/* Original post: https://androstock.com/tutorials/create-screen-recorder-app-android-android-studio.html
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -125,7 +132,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initRecorder() {
         try {
-            mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory() + "/video.mp4");
+            Date cDate = new Date();
+            String fDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(cDate);
+            mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory() + "/"+fDate+".mp4");
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             mediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);

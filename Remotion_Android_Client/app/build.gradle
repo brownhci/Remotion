@@ -10,7 +10,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "org.hitlabnz.sensor_fusion_demo"
+        applicationId "org.bhi.sfClient"
         minSdkVersion 18
         targetSdkVersion 25
         versionCode code + buildNumber

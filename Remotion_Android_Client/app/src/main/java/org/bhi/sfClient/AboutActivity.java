@@ -10,8 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ToggleButton;
 
-import org.hitlabnz.sensor_fusion_demo.R;
-
 import java.util.Locale;
 
 /**

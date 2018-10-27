@@ -18,9 +18,12 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by iagarwa1 on Jun/21/17.
+ * Modified by Jing Qian
  * Remotion Background logging
  */
 
@@ -32,7 +35,7 @@ public class BackgroundLogging extends IntentService {
     private  Quaternion pquaternion = new Quaternion();
     public long timestamp = 0;
     /* preset logging time in milli seconds*/
-    public final long timeDuration = 60*1000;
+    public final long timeDuration = 300*1000;
     public long startTime;
     public long unixTimestamp = 0;
     private WebSocketClient mWebSocketClient;
@@ -121,8 +124,11 @@ public class BackgroundLogging extends IntentService {
             File outputDir = this.getCacheDir(); // context being the Activity pointer
             //Calendar c = Calendar.getInstance();
             //Date currentTimestamp = c.getTime();
-            String filename = "Remotion_motiondata_";
-            File outputFile = File.createTempFile(filename, ".csv", this.getExternalCacheDir());
+            Date cDate = new Date();
+            String fDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(cDate);
+            //mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory() + "/"+fDate+".mp4");
+            String filename = "Remotion_motiondata_"+fDate;
+            File outputFile = File.createTempFile(filename, ".csv", getExternalCacheDir());
             outputFile.createNewFile();
             OutputStream os = new FileOutputStream(outputFile);
             Log.i("output filepath", outputFile.getAbsolutePath());

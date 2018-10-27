@@ -2,7 +2,7 @@
 manifest
 ADDED from C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\src\main\AndroidManifest.xml:2:1-33:12
 	package
-		ADDED from C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\src\main\AndroidManifest.xml:3:5-46
+		ADDED from C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\src\main\AndroidManifest.xml:3:5-31
 		INJECTED from C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\src\main\AndroidManifest.xml
 		INJECTED from C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\src\main\AndroidManifest.xml
 	android:versionName

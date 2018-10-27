@@ -63,7 +63,8 @@ Use **Android Studio** to build Remotion Client and Remotion Screen Projection. 
 For Arduino Code, please check out the ArduinoCodes Folder. The Arduino needs to be connected to **both the computer for serial communication and the 9V external power** supply to be able to power three servo motors.
 Remotion server requires Apache Server and NodeJS. We are working on to merge these two but for now. Apache server can be installed from [Xampp](https://www.apachefriends.org/index.html), and NodeJs can be installed from [Node](https://nodejs.org/en/). 
 
-# Starting Remotion:
+## Building Software Visualization
+
 Clone the repository by:
 #### Navigate to the Xampp virtual folder (i.e., ../htdocs/)
 
@@ -75,7 +76,7 @@ Clone the repository by:
 
 #### Remotion visualizations work only in the local network. Make sure all the executing parts are running under the same network. Change the IP address to your computer (internal IP address) inside Visualizer.html, server.js, and PhoneMode.html. Change the COM port in server.js
 
-## Running Services
+# Starting Remotion!
 There is a fixed order to begin Remotion visualizations.
 1. Plugin the Arduino to the computer terminal, make sure Arduino is powered by an external power source (i.e., 9v) and the stepper motor is powered by 12V.
 2. go to your Remotion_Visualization folder, run **node server.js**. If any error suggesting a particular IP address cannot be connected, fix it in the server.js

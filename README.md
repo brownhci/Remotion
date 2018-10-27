@@ -1,3 +1,5 @@
+![](https://remotion.cs.brown.edu/images/remotion.gif)
+
 Remotion is a complete end-to-end open source platform for improving qualitative observations for remote usability testings. The system comprises five components.
 
 1. The client software library for motion sensing on mobile devices (e.g., Android phones and Surface tablets) enables developers to collect sensing data by simply deploying an application on the participants' phone. 2. The screen projection component captures what the user sees on their screen and projects it to the screen in a software or hardware replay.

@@ -62,5 +62,15 @@ For Arduino Code, please check out the ArduinoCodes Folder. The Arduino need to 
 1. Make sure Remotion_Visualization folder is inside the Xampp's virtual environment folder (i.e., xampp/htdocs/).
 2. Remotion visualizations work only in the local network. Make sure all the executing parts are running under the same network.
 3. Change the IP address to your computer (internal IP address) inside Visualizer.html, server.js, and PhoneMode.html.
+4. Change the COM port in server.js
 
+# Starting Remotion:
+There is a fixed order to begin Remotion visualizations.
+1. Plugin the Arduino to the computer terminal, make sure arduino is powered by external powersource (i.e., 9v) and the stepper motor is powered by 12V.
+2. go to your Remotion_Visualization folder, run **node server.js**. If any error suggesting a certain IP address cannot be connected, fix it in the server.js
+3. go to visualizer.html, select "Participant Files"
+4. first click "Connect Server", then "Connect Hardware" (the status should all be green except Phone Peer)
+5. Find a smartphone, connecting to the same local network Remotion server is on, and navigate to /YOUR_LOCAL_IP/Remotion_visualization/PhoneMode.html
+6. Now click "PhoneClient" on visualization.html
+7. You can now click the spacebar on the keyboard or "Playback" to start playback.
 

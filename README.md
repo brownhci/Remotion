@@ -32,6 +32,8 @@ Remotion Hardware visualization is a fully customizable and low-cost Arduino-con
 Remotion's hardware visualization uses the same sensor fusion algorithm with the software counterpart to ensure consistency. On occasion, Remotion needs to swap the x and y-axis in the visualization to make the motion seamless. This is not the case with the Remotion's software visualization since its rotation is quaternion-based. The Remotion's hardware visualization uses Euler angles to rotate the device. Once the user rotates the phone from portrait to landscape, Remotion automatically swaps the x and y-axis to match the visualization.
 
 # Constructing Remotion 
+Clone the repository by:
+> git clone git@github.com:brownhci/Remotion.git
 ## Building Client software
 Use **Android Studio** to build Remotion Client and Remotion Screen Projection. Both apps are required on the remote client side. The screen recording will be saved at the **/storage/emulated/0/**, with "yyyy-mm-dd hh:mm:ss" as file name, and the motion logs will be saved at **/storage/emulated/0/Android/data/org.bhi.sfClient/cache/** with similar file formatting. 
 

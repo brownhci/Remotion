@@ -12,6 +12,7 @@ Remotion is designed to replicate a mobile device's screen content, movement, an
 # Remotion's Client Software Library
 The Remotion client is the first component of the Remotion platform. It enables collecting mobile sensing data (e.g., gyroscope and accelerometer) and user interaction data (e.g., taps and scrolls) from remote users. The Remotion client records these data in real time and uploads them to the Remotion server upon the completion of the task. The remote user can choose to start, stop, and upload data at will. The client provides the motion-encoded contextual data that can later be revealed to the experimenters.
 
+Current sensor-fusion algorithm is derived from [Alexander Pacha's Work](https://github.com/apacha/sensor-fusion-demo)
 # Remotion's Screen Projection Component
 The second component provides additional information about the remote user's screen content to the experimenters. The Remotion screen projection component captures the phone's screen changes and sends it to the Remotion server as a compressed image stream.
 

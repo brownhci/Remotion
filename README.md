@@ -1,4 +1,4 @@
-![](https://remotion.cs.brown.edu/images/remotion.gif)
+![](img/remotion.gif)
 
 Remotion is a complete end-to-end open source platform for improving qualitative observations for remote usability testings. The system comprises five components.
 

@@ -86,3 +86,4 @@ There is a fixed order to begin Remotion visualizations.
 6. Now click "PhoneClient" on visualization.html
 7. You can now click the spacebar on the keyboard or "Playback" to start playback.
 
+For technical questions: please contact [Jing Qian](jqian1590@gmail.com) or [Jeff Huang](https://jeffhuang.com/) for details. Thanks!

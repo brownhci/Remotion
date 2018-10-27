@@ -44,8 +44,7 @@ Remotion Software require Apache Server and NodeJS. We are working on to merge t
 
 # Hardware Wiring and Arduino Code.
 ![](https://github.com/brownhci/Remotion/blob/master/img/Remotion_hardwareSchematic.jpg)
-For Arduino Code, please check out the ArduinoCodes Folder
-
+For Arduino Code, please check out the ArduinoCodes Folder. The Arduino need to be connected to **both the computer for serial communication and the 9V external power** supply to be able to power three servo motors.
 # Where to get the components:
   [Metal Track](https://www.amazon.com/gp/product/B07FDXHC8X/ref=oh_aui_detailpage_o00_s00?ie=UTF8&psc=1)
   

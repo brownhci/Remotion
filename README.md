@@ -61,7 +61,7 @@ For Arduino Code, please check out the ArduinoCodes Folder
   
 # Constructing Remotion Software
 1. Make sure Remotion_Visualization folder is inside the Xampp's virtual environment folder (i.e., xampp/htdocs/).
-2. Rekmotion visualization works in the local network. Make sure all the executing parts are under the same network.
+2. Remotion visualizations work only in the local network. Make sure all the executing parts are running under the same network.
 3. Change the IP address to your computer (internal IP address) inside Visualizer.html, server.js, and PhoneMode.html.
 
 

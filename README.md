@@ -32,6 +32,7 @@ Remotion Hardware visualization is a fully customizable and low-cost Arduino-con
 Remotion's hardware visualization uses the same sensor fusion algorithm with the software counterpart to ensure consistency. On occasion, Remotion needs to swap the x and y-axis in the visualization to make the motion seamless. This is not the case with the Remotion's software visualization since its rotation is quaternion-based. The Remotion's hardware visualization uses Euler angles to rotate the device. Once the user rotates the phone from portrait to landscape, Remotion automatically swaps the x and y-axis to match the visualization.
 
 # Constructing Remotion 
+
 ## Building Client software
 Use **Android Studio** to build Remotion Client and Remotion Screen Projection. Both apps are required on the remote client side. The screen recording will be saved at the **/storage/emulated/0/**, with "yyyy-mm-dd hh:mm:ss" as file name, and the motion logs will be saved at **/storage/emulated/0/Android/data/org.bhi.sfClient/cache/** with similar file formatting. 
 
@@ -60,17 +61,22 @@ Use **Android Studio** to build Remotion Client and Remotion Screen Projection. 
 ### Hardware Wiring and Arduino Code.
 ![](https://github.com/brownhci/Remotion/blob/master/img/Remotion_hardwareSchematic.jpg)
 For Arduino Code, please check out the ArduinoCodes Folder. The Arduino needs to be connected to **both the computer for serial communication and the 9V external power** supply to be able to power three servo motors.
+Remotion server requires Apache Server and NodeJS. We are working on to merge these two but for now. Apache server can be installed from [Xampp](https://www.apachefriends.org/index.html), and NodeJs can be installed from [Node](https://nodejs.org/en/). 
 
 ## Building Software Visualization
-Remotion Software requires Apache Server and NodeJS. We are working on to merge these two but for now. Apache server can be installed from [Xampp](https://www.apachefriends.org/index.html), and NodeJs can be installed from [Node](https://nodejs.org/en/). 
 
-1. Make sure Remotion_Visualization folder is inside the Xampp's virtual environment folder (i.e., xampp/htdocs/).
-2. Remotion visualizations work only in the local network. Make sure all the executing parts are running under the same network.
-3. Change the IP address to your computer (internal IP address) inside Visualizer.html, server.js, and PhoneMode.html.
-4. Change the COM port in server.js
+Clone the repository by:
+#### Navigate to the Xampp virtual folder (i.e., ../htdocs/)
 
-# Starting Remotion:
-## Running Services
+> git clone git@github.com:brownhci/Remotion.git
+
+#### Then navigate to ../Remotion_Visualization/
+
+> npm install
+
+#### Remotion visualizations work only in the local network. Make sure all the executing parts are running under the same network. Change the IP address to your computer (internal IP address) inside Visualizer.html, server.js, and PhoneMode.html. Change the COM port in server.js
+
+# Starting Remotion!
 There is a fixed order to begin Remotion visualizations.
 1. Plugin the Arduino to the computer terminal, make sure Arduino is powered by an external power source (i.e., 9v) and the stepper motor is powered by 12V.
 2. go to your Remotion_Visualization folder, run **node server.js**. If any error suggesting a particular IP address cannot be connected, fix it in the server.js
@@ -80,3 +86,4 @@ There is a fixed order to begin Remotion visualizations.
 6. Now click "PhoneClient" on visualization.html
 7. You can now click the spacebar on the keyboard or "Playback" to start playback.
 
+For technical questions: please contact Jing Qian: jqian1590@gmail.com or [Jeff Huang](https://jeffhuang.com/) for details. 

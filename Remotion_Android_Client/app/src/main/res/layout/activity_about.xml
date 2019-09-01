@@ -8,15 +8,26 @@
         android:id="@+id/webViewAbout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/toggleButton" />
+        android:layout_marginTop="139dp"
+        android:layout_below="@+id/toggleButton"
+        android:layout_alignParentStart="true" />
 
     <ToggleButton
         android:id="@+id/toggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ToggleButton" />
+
+
+    <Button
+        android:id="@+id/btn_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Record Screen"
+        android:layout_marginTop="27dp"
+        android:layout_below="@+id/toggleButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="29dp" />
 
     <EditText
         android:id="@+id/editText"

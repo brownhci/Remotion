@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "org.bhi.sfClient"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode code + buildNumber
         versionName "1.4." + buildNumber

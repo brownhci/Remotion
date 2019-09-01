@@ -35,7 +35,7 @@ public class BackgroundLogging extends IntentService {
     private  Quaternion pquaternion = new Quaternion();
     public long timestamp = 0;
     /* preset logging time in milli seconds*/
-    public final long timeDuration = 300*1000;
+    public final long timeDuration = 3000*1000;
     public long startTime;
     public long unixTimestamp = 0;
     private WebSocketClient mWebSocketClient;
@@ -79,12 +79,10 @@ public class BackgroundLogging extends IntentService {
         }
         return false;
     }
-
     private void connectWebSocket(String ip) {
         URI uri;
         try {
-            //uri = new URI("ws://10.38.38.142:9999");
-             uri = new URI("ws://"+ip+":9999");
+            uri = new URI("ws://"+ip+":9999");
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return;
@@ -115,27 +113,31 @@ public class BackgroundLogging extends IntentService {
     }
     @Override
     protected void onHandleIntent(Intent workIntent) {
-
         connectWebSocket(workIntent.getStringExtra("ip"));
         SensorManager mSensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         CalibratedGyroscopeProvider or = new CalibratedGyroscopeProvider(mSensorManager);
         or.start();
         try {
             File outputDir = this.getCacheDir(); // context being the Activity pointer
-            //Calendar c = Calendar.getInstance();
-            //Date currentTimestamp = c.getTime();
             Date cDate = new Date();
             String fDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(cDate);
+
             //mediaRecorder.setOutputFile(Environment.getExternalStorageDirectory() + "/"+fDate+".mp4");
-            String filename = "Remotion_motiondata_"+fDate;
-            File outputFile = File.createTempFile(filename, ".csv", getExternalCacheDir());
+           // String filename = "Remotion_sensor_data_"+fDate;
+            String filename = "Remotion_sensor_data___";
+            File outputFile = File.createTempFile(filename, ".csv", Environment.getExternalStorageDirectory());
             outputFile.createNewFile();
             OutputStream os = new FileOutputStream(outputFile);
-            Log.i("output filepath", outputFile.getAbsolutePath());
-            startTime = System.currentTimeMillis();
-            String quatString = "";
-            while (System.currentTimeMillis() - startTime < timeDuration) {
 
+            Log.i("output filepath", outputFile.getAbsolutePath());
+
+            startTime = System.currentTimeMillis();
+
+            String quatString = "";
+            float timediff = System.currentTimeMillis() - startTime;
+
+            while (timediff < timeDuration) {
+                timediff = System.currentTimeMillis() - startTime;
                 if (timestamp < or.timestamp) {
                     or.getQuaternion(quaternion);
                     unixTimestamp = System.currentTimeMillis();
@@ -156,11 +158,6 @@ public class BackgroundLogging extends IntentService {
             }
             os.close();
             Log.d("loggin-stopped","message logging stopped. Duration is " + (timeDuration / 1000) + " seconds.");
-            //String subject = "Remotion Data";
-            //String[] address = {"jing_qian@brown.edu"};
-            //  Uri uri = Uri.parse(outputFile.getAbsolutePath());
-            // composeEmail(address, subject, uri);
-
         } catch (Exception e) {
             Log.i(TAG, e.toString());
             e.printStackTrace();

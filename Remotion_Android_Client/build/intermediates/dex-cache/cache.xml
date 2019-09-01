@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="26c6eef571592c91f29e56fda0bac73321de0c92">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\com.android.support-support-fragment-25.0.1_8a16f5e4cff98043c7c8bc0d7fbced8bfa6f409d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c5b7145fb34779b6639147b8f2f8dd77c0db771b">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_5de37cc355b7b99cb34f2123213754f1f8edceb3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-fragment\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="c0bd6ffb002a85b5e7cad29f8558d1cc59539679">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_49ad11cffdcc5cad106f591910cd24105a8fa803.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="51eba4a4dd73044f90a9d58dd7ca34adbebfcf4e">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\com.android.support-support-compat-25.0.1_4401b05244013117fe1a657e6e9a834513873b20.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\tutu5110\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.0.1\support-annotations-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a09194311f8f89c3e6db09d79f50897a889d615e">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\support-annotations-25.0.1_745c0cd9882bcaff59971436f14961fa40e211b7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_f046f046252c950bbe5b4a42067f1ae2e5161036.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-compat\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_3e8b7a23258c266833d821130b064ae9f69abd2f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\tutu5110\.gradle\caches\modules-2\files-2.1\org.java-websocket\Java-WebSocket\1.3.0\db2658f013fb163de4a99274c2eb9e17efe535d2\Java-WebSocket-1.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="db2658f013fb163de4a99274c2eb9e17efe535d2">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\Java-WebSocket-1.3.0_e9c2a03acfc117a5872a5123a2cfe25a8ed19d47.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6a1479afe9f1b3645e1cd9a87318976893472818">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\com.android.support-support-media-compat-25.0.1_40cda49fac921a76d7560fe5cb5cc77d6ae50d08.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-utils-25.0.1_ab6318f1be4f47dab6f22f50b57f8fc778ef2cbc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-v4\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-25.0.1_5e4cf0ce9773e71e2231f7c28500fa57f14837d8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\25.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bc7e99e8d0fc279a05aa91378530f467ad62d443">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-ui-25.0.1_febaf54f558168c142073aaf7c779aa0425b1817.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\25.0.1\jars\libs\internal_impl-25.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="f83b00041ecfba705603fec40363416c7de69719">
+        <dex dex="C:\xampp\htdocs\Remotion-git\Remotion\Remotion_Android_Client\app\build\intermediates\pre-dexed\debug\internal_impl-25.0.1_2a9c8d85288023f816c9e5ae8f1f43ab85cb4994.jar" />
+    </item>
+
+</items>

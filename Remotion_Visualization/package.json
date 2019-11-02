@@ -12,7 +12,7 @@
     "http": "latest",
     "serialport": "^4.0.6",
     "websocket": "latest",
-    "ws": "0.8.1",
+    "ws": "7.2.0",
     "peer": "latest",
     "socket.io": "latest"
   }
